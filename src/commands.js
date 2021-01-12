@@ -60,6 +60,7 @@ function random(message) {
 }
 
 function server(message) {
+    // uses Nodejs module os to get system specs
     const embe = new Discord.MessageEmbed()
                 .setTitle(`Server specs`)
                 .setColor(`RANDOM`)
@@ -71,9 +72,10 @@ function server(message) {
 }
 
 function player(message) {
-    let getuser = message.content;
 
-    if(!getuser.includes("@"))
+    let getuser = message.content;//gets the content of the message in the json
+
+    if(!getuser.includes("@"))//detect if the message don't content @ to send message owner user info
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
@@ -112,7 +114,7 @@ function that provide the server information
 
 */
 function owner(message) {
-    let embed = new Discord.MessageEmbed()
+    let embed = new Discord.MessageEmbed()//create embed message with the server basic info
         .setColor("RANDOM")
         .setTitle("Server Info")
         .setImage(message.guild.iconURL)
