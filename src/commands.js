@@ -5,6 +5,8 @@ const {get, unsubscribe} = require("snekfetch");
 const os = require('os');
 const { timeStamp } = require('console');
 const { cpuUsage } = require('process');
+const cheerio = require("cheerio");
+const request = require("request");
 
 const commands = {};
 
@@ -26,7 +28,7 @@ function help(message) {
     let commando = new Discord.MessageEmbed()
                 .setTitle(`Lapis commands`)
                 .setColor(`#42e0f5`)
-                .setDescription("Hey "+ message.author.username + " those are my commands")
+                .setDescription(`Hey ${message.author}`+ " those are my commands")
                 .addField("?cat", "Return cat random pic")
                 .addField("?hello", "Lapis say hello to you")
                 .addField("?help", "This are my commands")
@@ -35,6 +37,7 @@ function help(message) {
                 .addField("?stop" ,"To stop and disconnect the bot")
                 .addField("?server", "To see the server specs ")
                 .addField("?random", "To generate a random number")
+                .addField("?image something", "Lapis send a picture ")
                 message.author.send(commando);
                 //message.author.send('Hello '+ message.author.username +'this are my commands \n ?cat return cat random pic \n ?hello lapis say hello to you \n ?help this are my commands \n ?play to play youtube music \n ?skip to skip the music in the queue');
                 message.channel.send("Hey look at your dm!!")
@@ -102,6 +105,11 @@ function player(message) {
     }
 }
 
+/*
+
+function that provide the server information
+
+*/
 function owner(message) {
     let embed = new Discord.MessageEmbed()
         .setColor("RANDOM")
@@ -118,29 +126,29 @@ function owner(message) {
 function avatar(message)
 {
 
-    let getuser = message.content;
+    let getuser = message.content;//get the message content from the json
 
-    if(!getuser.includes("@"))
+    if(!getuser.includes("@"))//send the user profile if they didn't pin other user
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
-        .setTitle(message.author.username)
+        .setTitle(`${message.author}`)
         .setDescription(message.author.avatarURL())
         .setImage(message.author.avatarURL({size: 256}))
         message.channel.send(embed);
     }
-    else if(getuser.includes("@"))
+    else if(getuser.includes("@"))//detect if the user contains @
     {
-        try
+        try//send and embed message with the info and handle errors if the rol didn't exist
         {
             const embed = new Discord.MessageEmbed()
             .setColor('#42e0f5')
-            .setTitle(message.mentions.users.first().username)
+            .setTitle(`${message.mentions.users.first().username}`)
             .setDescription(message.author.avatarURL())
             .setImage(message.mentions.users.first().avatarURL({size: 256}))
             message.channel.send(embed);
         }
-        catch
+        catch//send a error message if something happends
         {
             message.channel.send("Invalid user")
         }
@@ -149,6 +157,61 @@ function avatar(message)
 
 function men(message,args) {
 
+}
+
+function image(message) {
+ 
+    /* extract search query from message */
+ 
+    var parts = message.content.split(" ");
+
+    var search = parts.slice(1).join(" "); // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
+ 
+    var options = {
+        url: "http://results.dogpile.com/serp?qc=images&q=" + search,
+        method: "GET",
+        headers: {
+            "Accept": "text/html",
+            "User-Agent": "Chrome"
+        }
+    };
+    request(options, async function(error, response, responseBody) {
+        if (error) {
+            // handle error
+            return;
+        }
+ 
+        /* Extract image URLs from responseBody using cheerio */
+ 
+        $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
+ 
+        // In this search engine they use ".image a.link" as their css selector for image links
+        var links = $(".image a.link");
+ 
+        // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
+        // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
+        var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
+        //console.log(urls);
+        if (!urls.length) {
+            // Handle no results
+            return;
+        }
+ 
+        // Send result
+        message.channel.send("There it is dude "+ message.author.username+" "+urls[0] );
+    });
+ 
+}
+
+var emojis = [
+    '😄','😃','😀','😊','☺','😉','😍','😘','😚','😗','😙','😜','😝','😛','😳','😁','😔','😌','😒','😞','😣','😢','😂','😭','😪','😥','😰','😅','😓','😩','😫','😨','😱','😠','😡','😤','😖','😆','😋','😷','😎','😴','😵','😲','😟','😦','😧','😈','👿','😮','😬','😐','😕','😯','😶','😇','😏','😑','👲','👳','👮','👷','💂','👶','👦','👧','👨','👩','👴','👵','👱','👼','👸','😺','😸','😻','😽','😼','🙀','😿','😹','😾','👹','👺','🙈','🙉','🙊','💀','👽','💩','🔥','✨','🌟','💫','💥','💢','💦','💧','💤','💨','👂','👀','👃','👅','👄','👍','👎','👌','👊','✊','✌','👋','✋','👐','👆','👇','👉','👈','🙌','🙏','☝','👏','💪','🚶','🏃','💃','👫','👪','👬','👭','💏','💑','👯','🙆','🙅','💁','🙋','💆','💇','💅','👰','🙎','🙍','🙇','🎩','👑','👒','👟','👞','👡','👠','👢','👕','👔','👚','👗','🎽','👖','👘','👙','💼','👜','👝','👛','👓','🎀','🌂','💄','💛','💙','💜','💚','❤','💔','💗','💓','💕','💖','💞','💘','💌','💋','💍','💎','👤','👥','💬','👣','💭','🐶','🐺','🐱','🐭','🐹','🐰','🐸','🐯','🐨','🐻','🐷','🐽','🐮','🐗','🐵','🐒','🐴','🐑','🐘','🐼','🐧','🐦','🐤','🐥','🐣','🐔','🐍','🐢','🐛','🐝','🐜','🐞','🐌','🐙','🐚','🐠','🐟','🐬',
+    '🐳','🐋','🐄','🐏','🐀','🐃','🐅','🐇','🐉','🐎','🐐','🐓','🐕','🐖','🐁','🐂','🐲','🐡','🐊','🐫','🐪','🐆','🐈','🐩','🐾','💐','🌸','🌷','🍀','🌹','🌻','🌺','🍁','🍃','🍂','🌿','🌾','🍄','🌵','🌴','🌲','🌳','🌰','🌱','🌼','🌐','🌞','🌝','🌚','🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘','🌜','🌛','🌙','🌍','🌎','🌏','🌋','🌌','🌠','⭐','☀','⛅','☁','⚡','☔','❄','⛄','🌀','🌁','🌈','🌊','🎍','💝','🎎','🎒','🎓','🎏','🎆','🎇','🎐','🎑','🎃','👻','🎅','🎄','🎁','🎋','🎉','🎊','🎈','🎌','🔮','🎥','📷','📹','📼','💿','📀','💽','💾','💻','📱','☎','📞','📟','📠','📡','📺','📻','🔊','🔉','🔈','🔇','🔔','🔕','📢','📣','⏳','⌛','⏰','⌚','🔓','🔒','🔏','🔐','🔑','🔎','💡','🔦','🔆','🔅','🔌','🔋','🔍','🛁','🛀','🚿','🚽','🔧','🔩','🔨','🚪','🚬','💣','🔫','🔪','💊','💉','💰','💴','💵','💷','💶','💳','💸','📲','📧','📥','📤','✉','📩','📨','📯','📫','📪','📬','📭','📮','📦','📝','📄','📃','📑','📊','📈','📉','📜','📋','📅','📆','📇','📁','📂','✂','📌','📎','✒','✏','📏','📐','📕','📗','📘','📙','📓','📔','📒','📚','📖','🔖','📛','🔬','🔭','📰','🎨','🎬','🎤','🎧','🎼','🎵','🎶','🎹','🎻','🎺','🎷','🎸','👾','🎮','🃏','🎴','🀄','🎲',
+    '🎯','🏈','🏀','⚽','⚾','🎾','🎱','🏉','🎳','⛳','🚵','🚴','🏁','🏇','🏆','🎿','🏂','🏊','🏄','🎣','☕','🍵','🍶','🍼','🍺','🍻','🍸','🍹','🍷','🍴','🍕','🍔','🍟','🍗','🍖','🍝','🍛','🍤','🍱','🍣','🍥','🍙','🍘','🍚','🍜','🍲','🍢','🍡','🍳','🍞','🍩','🍮','🍦','🍨','🍧','🎂','🍰','🍪','🍫','🍬','🍭','🍯','🍎','🍏','🍊','🍋','🍒','🍇','🍉','🍓','🍑','🍈','🍌','🍐','🍍','🍠','🍆','🍅','🌽','🏠','🏡','🏫','🏢','🏣','🏥','🏦','🏪','🏩','🏨','💒','⛪','🏬','🏤','🌇','🌆','🏯','🏰','⛺','🏭','🗼','🗾','🗻','🌄','🌅','🌃','🗽','🌉','🎠','🎡','⛲','🎢','🚢','⛵','🚤','🚣','⚓','🚀','✈','💺','🚁','🚂','🚊','🚉','🚞','🚆','🚄','🚅','🚈','🚇','🚝','🚋','🚃','🚎','🚌','🚍','🚙','🚘','🚗','🚕','🚖','🚛','🚚','🚨','🚓','🚔','🚒','🚑','🚐','🚲','🚡','🚟','🚠','🚜','💈','🚏','🎫','🚦','🚥','⚠','🚧','🔰','⛽','🏮','🎰','♨','🗿','🎪','🎭','📍','🚩','⬆','⬇','⬅','➡','🔠','🔡','🔤','↗','↖','↘','↙','↔','↕','🔄','◀','▶','🔼','🔽','↩','↪','ℹ','⏪','⏩','⏫','⏬','⤵','⤴','🆗','🔀','🔁','🔂','🆕','🆙','🆒','🆓','🆖','📶','🎦','🈁','🈯','🈳','🈵','🈴','🈲','🉐','🈹','🈺','🈶','🈚','🚻','🚹','🚺','🚼','🚾','🚰','🚮','🅿','♿','🚭','🈷','🈸',
+    '🈂','Ⓜ','🛂','🛄','🛅','🛃','🉑','㊙','㊗','🆑','🆘','🆔','🚫','🔞','📵','🚯','🚱','🚳','🚷','🚸','⛔','✳','❇','❎','✅','✴','💟','🆚','📳','📴','🅰','🅱','🆎','🅾','💠','➿','♻','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','⛎','🔯','🏧','💹','💲','💱','©','®','™','〽','〰','🔝','🔚','🔙','🔛','🔜','❌','⭕','❗','❓','❕','❔','🔃','🕛','🕧','🕐','🕜','🕑','🕝','🕒','🕞','🕓','🕟','🕔','🕠','🕕','🕖','🕗','🕘','🕙','🕚','🕡','🕢','🕣','🕤','🕥','🕦','✖','➕','➖','➗','♠','♥','♣','♦','💮','💯','✔','☑','🔘','🔗','➰','🔱','🔲','🔳','◼','◻','◾','◽','▪','▫','🔺','⬜','⬛','⚫','⚪','🔴','🔵','🔻','🔶','🔷','🔸','🔹'
+];
+
+function aguirre(message) {
+    message.channel.send(emojis[Math.floor(Math.random() * emojis.length)]);
 }
 
 /*
@@ -197,5 +260,7 @@ commands.player = player;
 commands.men = men;
 commands.owner = owner;
 commands.avatar = avatar;
+commands.image = image;
+commands.aguirre = aguirre;
 
 module.exports = commands;

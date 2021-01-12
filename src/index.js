@@ -3,6 +3,7 @@ const ytdl = require('ytdl-core');
 const config = require("./config.json");
 const { YTSearcher } = require('ytsearcher');
 const commandos = require('./commands.js');
+const commands = require('./commands.js');
  
 const searcher = new YTSearcher({
     key: "AIzaSyCVoY7Fv7RW4eT-skLuQ5to611PF4DVboA",
@@ -71,7 +72,12 @@ client.on("message", async(message) => {
         case 'avatar':
             commandos.avatar(message); 
             break;
-
+        case 'image':
+            commandos.image(message);
+            break;
+        case 'aguirre':
+            commandos.aguirre(message);
+            break;
 
 }   
     async function execute(message, serverQueue){
