@@ -26,7 +26,7 @@ function help(message) {
     let commando = new Discord.MessageEmbed()
                 .setTitle(`Lapis commands`)
                 .setColor(`#42e0f5`)
-                .setDescription("Hey "+ message.author.username + "those are my commands")
+                .setDescription("Hey "+ message.author.username + " those are my commands")
                 .addField("?cat", "Return cat random pic")
                 .addField("?hello", "Lapis say hello to you")
                 .addField("?help", "This are my commands")
