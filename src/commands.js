@@ -45,7 +45,7 @@ function help(message) {
 
 function message(message) {
     message.channel.send(`hello ${message.author}`);
-            message.react(':tangerine:');
+            //message.react(':tangerine:');
             //console.log(message.author);
 
             if(message.author.id == '256085480309915648')
@@ -97,6 +97,7 @@ function player(message) {
             .addField("My id ", message.mentions.users.first().discriminator)
             .setImage(message.mentions.users.first().avatarURL())
             message.channel.send(embed);
+            console.log(message);
         }
         catch
         {

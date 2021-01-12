@@ -18,7 +18,7 @@ client.on('ready', () => {
     console.log('Bot Now connected!');
     console.log('Logged In as', client.user.tag)
     client.user.setStatus('online'); // online, idle, invisible, dnd
-    client.user.setActivity("In develop"); 
+    client.user.setActivity("In develop ?help"); 
     console.log('Bot status: ', client.user.presence.status);
 });
  
@@ -30,17 +30,31 @@ client.on("message", async(message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g)
     const command = args.shift().toLowerCase();
 
-    if (!message.content.startsWith(prefix)) return;
+    let contenido = message.content;
 
+    if(contenido.includes("797947218471419952"))
+    {
+        message.react("❤️");
+    }
+
+    if (!message.content.startsWith(prefix))
+    {return;}
+    
+    else
+    {
+        message.react("👍");
     switch(command){
         case 'play':
             execute(message, serverQueue);
+            message.react("🎵");
             break;
         case 'stop':
             stop(message, serverQueue);
+            message.react("❌");
             break;
         case 'skip':
             skip(message, serverQueue);
+            message.react("🎯");
             break;
         case 'cat':
             commandos.cat(message);
@@ -65,6 +79,7 @@ client.on("message", async(message) => {
             break;  
         case 'camilo':
             message.channel.send("Que creyo que le iba a decir onichan \n pues te jodes")
+            message.react("😡");
             break;
         case 'test':
             commandos.men(message,args);
@@ -78,7 +93,10 @@ client.on("message", async(message) => {
         case 'aguirre':
             commandos.aguirre(message);
             break;
-
+        default:
+            message.channel.send("Heyy I don't recognice this command");
+            message.react("😞");
+    }
 }   
     async function execute(message, serverQueue){
         let vc = message.member.voice.channel;
