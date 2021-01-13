@@ -95,6 +95,10 @@ client.on("message", async(message) => {
             break;
         case 'emoji':
             commandos.aguirre(message);
+            break;
+        case 'cls':
+            commandos.cls(message);
+            break;
         default:
             message.channel.send("Heyy I don't recognice this command");
             message.react("😞");

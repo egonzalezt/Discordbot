@@ -219,6 +219,19 @@ function aguirre(message) {
     message.channel.send(emojis[Math.floor(Math.random() * emojis.length)]);
 }
 
+function cls(message)
+{
+    if (message.member.hasPermission("MANAGE_MESSAGES")) {
+        message.channel.bulkDelete(5)
+        .then(messages => console.log('Bulk deleted messages'))
+        .catch(console.error);
+        message.channel.send("Chat cleared");                       
+    }else
+    {
+        message.channel.send("Heyyy, what are you doing \n you need permission to run this command")
+    }
+}
+
 /*
 function men(message) {
     let prefix = '?'
@@ -267,5 +280,6 @@ commands.owner = owner;
 commands.avatar = avatar;
 commands.image = image;
 commands.aguirre = aguirre;
+commands.cls = cls;
 
 module.exports = commands;
