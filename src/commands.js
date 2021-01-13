@@ -222,7 +222,11 @@ function aguirre(message) {
 
 function cls(message)
 {
-    if (message.member.hasPermission("MANAGE_MESSAGES")) {
+    if(message.guild.id=='255881707209621505')
+    {
+        message.channel.send("Sorry but this function was disabled on this group")
+    }
+    else if (message.member.hasPermission("MANAGE_MESSAGES")) {
         message.channel.bulkDelete(5)
         .then(messages => console.log('Bulk deleted messages'))
         .catch(console.error);
