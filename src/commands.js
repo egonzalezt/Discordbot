@@ -40,7 +40,7 @@ function help(message) {
                 .addField("?image something", "Lapis send a picture ")
                 .addField("?player", "To see your or another user profile")
                 .addField("?emoji", "Lapis send to you a random emoji")
-                .addField("?cls, Clear 5 messages on chat")
+                .addField("?cls", "Clear 5 messages on chat")
                 message.author.send(commando);
                 //message.author.send('Hello '+ message.author.username +'this are my commands \n ?cat return cat random pic \n ?hello lapis say hello to you \n ?help this are my commands \n ?play to play youtube music \n ?skip to skip the music in the queue');
                 message.channel.send("Hey look at your dm!!")
