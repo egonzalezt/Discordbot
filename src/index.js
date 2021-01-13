@@ -6,7 +6,7 @@ const commandos = require('./commands.js');
 const commands = require('./commands.js');
  
 const searcher = new YTSearcher({
-    key: "youtube api token",
+    key: "AIzaSyAnxw4roCTZRyOsohF56qfIKAzSzfAqXdU",
     revealed: true
 });
  
