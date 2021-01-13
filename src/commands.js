@@ -38,8 +38,8 @@ function help(message) {
                 .addField("?server", "To see the server specs ")
                 .addField("?random", "To generate a random number")
                 .addField("?image something", "Lapis send a picture ")
-                .addFields("?player", "To see your or another user profile")
-                .addFields("?emoji", "Lapis send to you a random emoji")
+                .addField("?player", "To see your or another user profile")
+                .addField("?emoji", "Lapis send to you a random emoji")
                 message.author.send(commando);
                 //message.author.send('Hello '+ message.author.username +'this are my commands \n ?cat return cat random pic \n ?hello lapis say hello to you \n ?help this are my commands \n ?play to play youtube music \n ?skip to skip the music in the queue');
                 message.channel.send("Hey look at your dm!!")
