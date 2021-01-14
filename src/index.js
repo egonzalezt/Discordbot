@@ -4,7 +4,8 @@ const config = require("./config.json");
 const { YTSearcher } = require('ytsearcher');
 const commandos = require('./commands.js');
 const commands = require('./commands.js');
- 
+const steam = require('./steam.js');
+
 const searcher = new YTSearcher({
     key: "AIzaSyAnxw4roCTZRyOsohF56qfIKAzSzfAqXdU",
     revealed: true
@@ -98,6 +99,9 @@ client.on("message", async(message) => {
             break;
         case 'cls':
             commandos.cls(message);
+            break;
+        case 'steam':
+            steam.get_id(message);
             break;
         default:
             message.channel.send("Heyy I don't recognice this command");

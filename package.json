@@ -12,10 +12,13 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "cheerio": "^1.0.0-rc.5",
+    "dateformat": "^4.4.1",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.2.7",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.2",
     "snekfetch": "^4.0.4",
+    "steamapi": "^2.1.2",
     "ytdl-core": "^4.4.2",
     "ytsearcher": "^1.2.3"
   }

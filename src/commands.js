@@ -41,6 +41,7 @@ function help(message) {
                 .addField("?player", "To see your or another user profile")
                 .addField("?emoji", "Lapis send to you a random emoji")
                 .addField("?cls", "Clear 5 messages on current chat")
+                .addField("?steam player", "To see steam basic player info")
                 message.author.send(commando);
                 message.channel.send("Hey look at your dm!!")
 }
@@ -101,7 +102,6 @@ function player(message) {
             .addField("My id ", message.mentions.users.first().discriminator)
             .setImage(message.mentions.users.first().avatarURL())
             message.channel.send(embed);
-            console.log(message);
         }
         catch
         {
@@ -221,57 +221,50 @@ function aguirre(message) {
 
 function cls(message)
 {
+    const args = message.content.split(' ');
+    var value = 5;
+    var num = args[1];
+    let cond = true;
     if(message.guild.id=='255881707209621505')
     {
         message.channel.send("Sorry but this function was disabled on this group")
     }
     else if (message.member.hasPermission("MANAGE_MESSAGES")) {
-        message.channel.bulkDelete(5)
-        .then(messages => console.log('Bulk deleted messages'))
-        .catch(console.error);
-        message.channel.send("Chat cleared");                       
+        if(!args[1])
+        {
+           value = 5;
+        }
+        else
+        {
+            if(parseInt(num))
+            {
+                value = parseInt(num);
+                if(value > 20)
+                {
+                    cond = false;
+                    message.channel.send("Sorry but I can't delete that amount");
+                    message.react("😞");
+                }
+            }
+            else
+            {
+                cond = false;
+                message.channel.send("Sorry but I need a number")
+                message.react("😞");
+            }
+        }
+        if(cond)
+        {
+            message.channel.bulkDelete(value)
+            .then(messages => console.log('Bulk deleted messages'))
+            .catch(console.error);
+            message.channel.send("Chat cleared " + value + " messages"); 
+        }   
     }else
     {
         message.channel.send("Heyyy, what are you doing \n you need permission to run this command")
     }
 }
-
-/*
-function men(message) {
-    let prefix = '?'
-    const withoutPrefix = message.content.slice(prefix.length);
-	const split = withoutPrefix.split(/ +/);
-	const command = split[0];
-	const args = split.slice(1);
-
-	if (args[0]) {
-        const user = getUserFromMention(args[0]);
-        console.log(user);
-		if (!user) {
-			return message.reply('Please use a proper mention if you want to see someone elses avatar.');
-		}
-
-		return message.channel.send(`${user.username}'s avatar: ${user.displayAvatarURL({ dynamic: true })}`);
-	}
-
-	return message.channel.send(`${message.author.username}, your avatar: ${message.author.displayAvatarURL({ dynamic: true })}`);
- 
-}
-
-function getUserFromMention(mention) {
-	if (!mention) return;
-
-	if (mention.startsWith('<@') && mention.endsWith('>')) {
-		mention = mention.slice(2, -1);
-
-		if (mention.startsWith('!')) {
-			mention = mention.slice(1);
-		}
-
-		return client.users.cache.get(mention);
-	}
-}
-*/
 
 commands.message = message;
 commands.help = help;
