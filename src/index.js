@@ -103,6 +103,15 @@ client.on("message", async(message) => {
         case 'steam':
             steam.get_id(message);
             break;
+        case 'catfact':
+            commandos.catfact(message);
+            break;
+        case 'meme':
+            commandos.meme(message);
+            break;
+        case 'lyrics':
+            commandos.lyrics(message);
+            break;
         default:
             message.channel.send("Heyy I don't recognice this command");
             message.react("😞");

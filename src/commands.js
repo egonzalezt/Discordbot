@@ -7,6 +7,7 @@ const { timeStamp } = require('console');
 const { cpuUsage } = require('process');
 const cheerio = require("cheerio");
 const request = require("request");
+const fetch = require("node-fetch");
 
 const commands = {};
 
@@ -42,6 +43,9 @@ function help(message) {
                 .addField("?emoji", "Lapis send to you a random emoji")
                 .addField("?cls", "Clear 5 messages on current chat")
                 .addField("?steam player", "To see steam basic player info")
+                .addField("?meme","Lapis send to you a random meme")
+                .addField("?lyrics song name","Get a song info")
+                .addField("?catfact","Interesting info about cats")
                 message.author.send(commando);
                 message.channel.send("Hey look at your dm!!")
 }
@@ -266,6 +270,55 @@ function cls(message)
     }
 }
 
+function catfact(message) {
+
+    let url = "https://some-random-api.ml/facts/cat";
+    fetch(url).then(res => res.json()).then(body => {
+        let embed = new Discord.MessageEmbed()
+        .setTitle("Cat fact")
+        .setColor(`RANDOM`)
+        .setDescription(body.fact)
+        message.channel.send(embed)
+    });
+    
+}
+
+function meme(message) {
+
+    let url = "https://some-random-api.ml/meme";
+    fetch(url).then(res => res.json()).then(body => {
+        let embed = new Discord.MessageEmbed()
+        .setTitle("Meme")
+        .setColor(`RANDOM`)
+        .setDescription("Category " + body.category)
+        .setImage(body.image)
+        message.channel.send(embed)
+    });
+}
+
+function lyrics(message) {
+
+    const args = message.content.split(' ');
+    if(!args[1])
+    {
+        message.channel.send("Sorry but i need a song title")
+    }
+    else
+    {
+        let song = args[1];
+        let url = "https://some-random-api.ml/lyrics?title="+song;
+        fetch(url).then(res => res.json()).then(body => {
+            let embed = new Discord.MessageEmbed()
+            .setAuthor(body.author)
+            .setTitle(body.title)
+            .setColor(`RANDOM`)
+            .setImage(body.thumbnail.genius)
+            .addField("Lyrics",`[Song link](${body.links.genius}).`)
+            message.channel.send(embed)
+        });
+    }
+}
+
 commands.message = message;
 commands.help = help;
 commands.cat = cat;
@@ -278,5 +331,7 @@ commands.avatar = avatar;
 commands.image = image;
 commands.aguirre = aguirre;
 commands.cls = cls;
-
+commands.catfact = catfact;
+commands.meme = meme;
+commands.lyrics = lyrics;
 module.exports = commands;
