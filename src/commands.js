@@ -75,7 +75,9 @@ function server(message) {
                 .addField("Free memory ram on your system",os.freemem())
                 .addField("Your os ver",os.release())
                 .addField("Platform ",os.platform())
-                message.channel.send(embe);
+                message.channel.send(embe).then(function(send) {
+                    send.react("🐳");
+                });
 }
 
 function player(message) {
@@ -335,3 +337,4 @@ commands.catfact = catfact;
 commands.meme = meme;
 commands.lyrics = lyrics;
 module.exports = commands;
+
