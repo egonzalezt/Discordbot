@@ -30,7 +30,7 @@ function get_id(message)
                 let embed = new Discord.MessageEmbed()
                 .setTitle("Sorry but I cannot found this user")
                 .setColor(`#42e0f5`)
-                .setDescription(`[Link](https://steamcommunity.com/id/+${args[1]}).`)
+                .setDescription(`[Link](https://steamcommunity.com/id/${args[1]}).`)
                 message.channel.send(embed)
                 message.react("😞");
             }

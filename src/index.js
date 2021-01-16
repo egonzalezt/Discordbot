@@ -89,7 +89,7 @@ client.on("message", async(message) => {
             commandos.avatar(message); 
             break;
         case 'image':
-            commandos.image(message);
+            commandos.schimage(message);
             break;
         case 'aguirre':
             commandos.aguirre(message);
@@ -112,6 +112,28 @@ client.on("message", async(message) => {
         case 'lyrics':
             commandos.lyrics(message);
             break;
+        case 'BW':
+            commandos.imageapi(message,1);
+            break;
+        case 'rainbow':
+            commandos.imageapi(message,2);
+             break;
+        case 'glass':
+            commandos.imageapi(message,3);
+            break;
+        case 'wasted':
+            commandos.imageapi(message,4);
+            break;
+        case 'triggered':
+            commandos.imageapi(message,5);
+            break;
+        case 'invert':
+            commandos.imageapi(message,6);
+            break;
+        case 'wasted1':
+            commandos.wasted1(message);
+            break;
+                
         default:
             message.channel.send("Heyy I don't recognice this command");
             message.react("😞");

@@ -46,6 +46,10 @@ function help(message) {
                 .addField("?meme","Lapis send to you a random meme")
                 .addField("?lyrics song name","Get a song info")
                 .addField("?catfact","Interesting info about cats")
+                .addField("?bw","Transform player avatar to black and white")
+                .addField("?rainbow","Transform player profile pic with rainbow")
+                .addField("?wasted","User profile pic gta wasted style")
+                .addField("?wasted1","3 users profile pic gta wasted style")
                 message.author.send(commando);
                 message.channel.send("Hey look at your dm!!")
 }
@@ -143,9 +147,9 @@ function avatar(message)
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
-        .setTitle(`${message.author}`)
+        .setTitle(`${message.author.username}`)
         .setDescription(message.author.avatarURL())
-        .setImage(message.author.avatarURL({size: 256}))
+        .setImage(message.author.avatarURL({size: 2048}))
         message.channel.send(embed);
     }
     else if(getuser.includes("@"))//detect if the user contains @
@@ -156,7 +160,7 @@ function avatar(message)
             .setColor('#42e0f5')
             .setTitle(`${message.mentions.users.first().username}`)
             .setDescription(message.author.avatarURL())
-            .setImage(message.mentions.users.first().avatarURL({size: 256}))
+            .setImage(message.mentions.users.first().avatarURL({size: 2048}))
             message.channel.send(embed);
         }
         catch//send a error message if something happends
@@ -166,11 +170,7 @@ function avatar(message)
     }
 }
 
-function men(message,args) {
-
-}
-
-function image(message) {
+function schimage(message) {
  
     /* extract search query from message */
  
@@ -209,7 +209,7 @@ function image(message) {
         }
  
         // Send result
-        message.channel.send("There it is dude "+ message.author.username+" "+urls[0] );
+        message.channel.send("There it is dude "+ message.author.username+"\n"+urls[0] );
     });
  
 }
@@ -321,6 +321,80 @@ function lyrics(message) {
     }
 }
 
+function men(message,args) {
+
+}
+
+async function wasted1(message) {
+    let url = "https://some-random-api.ml/canvas/wasted?avatar="
+    let map = message.mentions.users.array();
+    if(map.length>=4)
+    {
+        message.channel.send("Sorry but you can do this with max 3 users").then(msg => {msg.react('⛔')});
+    }
+    else
+    {
+        map.forEach((value, key) => {
+            let user = url+value.avatarURL()
+            let userend = user.replace("webp", "png")
+            get(userend).then(res =>
+                {
+                    message.channel.send(userend)
+                }
+            );
+        }) 
+    } 
+}
+
+function imageapi(message,type) {
+    var url = ``;
+
+    if(type == 1)
+    {
+        url = `https://some-random-api.ml/canvas/threshold?avatar=`
+    }
+    else if(type == 2)
+    {
+        url = `https://some-random-api.ml/canvas/gay?avatar=`
+    }
+    else if(type == 3)
+    {
+        url = `https://some-random-api.ml/canvas/glass?avatar=`
+    }
+    else if(type == 4)
+    {
+        url = `https://some-random-api.ml/canvas/wasted?avatar=`
+    }
+    else if(type == 5)
+    {
+        url = `https://some-random-api.ml/canvas/triggered?avatar=`
+        message.channel.send("Sorry this command fails").then(msg => {msg.react("😞")});
+    }
+    else if(type == 6)
+    {
+        url = `https://some-random-api.ml/canvas/invert?avatar=`
+    }
+
+    if(!message.mentions.users.first())
+    {
+        let avatarurl = message.author.avatarURL({size: 1024});
+        url += `${avatarurl.replace("webp", "png")}`;
+    }else
+    {
+        let avatarurl = message.mentions.users.first().avatarURL({size: 1024})
+        url += `${avatarurl.replace("webp", "png")}`;
+    }
+
+    get(url).then(res =>
+        {
+            let embed = new Discord.MessageEmbed()
+            .setColor(`RANDOM`)
+            .setImage(url)
+            message.channel.send(embed)
+        }
+    );
+}
+
 commands.message = message;
 commands.help = help;
 commands.cat = cat;
@@ -330,11 +404,14 @@ commands.player = player;
 commands.men = men;
 commands.owner = owner;
 commands.avatar = avatar;
-commands.image = image;
 commands.aguirre = aguirre;
 commands.cls = cls;
 commands.catfact = catfact;
 commands.meme = meme;
 commands.lyrics = lyrics;
+commands.imageapi = imageapi;
+commands.schimage = schimage;
+commands.wasted1 = wasted1;
+
 module.exports = commands;
 
