@@ -3,8 +3,8 @@ const ytdl = require('ytdl-core');
 const config = require("./config.json");
 const { YTSearcher } = require('ytsearcher');
 const commandos = require('./commands.js');
-const commands = require('./commands.js');
 const steam = require('./steam.js');
+const LapisEmoji = require("./emoji.json")
 
 const searcher = new YTSearcher({
     key: "AIzaSyAnxw4roCTZRyOsohF56qfIKAzSzfAqXdU",
@@ -43,7 +43,7 @@ client.on("message", async(message) => {
     
     else
     {
-        message.react("👍");
+        message.react(LapisEmoji.Lapis15);
     switch(command){
         case 'play':
             execute(message, serverQueue);
@@ -80,7 +80,7 @@ client.on("message", async(message) => {
             break;  
         case 'camilo':
             message.channel.send("Que creyo que le iba a decir onichan \n pues te jodes")
-            message.react("😡");
+            message.channel.send(LapisEmoji.Lapis13);
             break;
         case 'test':
             commandos.men(message,args);
@@ -112,7 +112,7 @@ client.on("message", async(message) => {
         case 'lyrics':
             commandos.lyrics(message);
             break;
-        case 'BW':
+        case 'bw':
             commandos.imageapi(message,1);
             break;
         case 'rainbow':
@@ -193,7 +193,7 @@ client.on("message", async(message) => {
                 serverQueue.songs.shift();
                 play(guild, serverQueue.songs[0]);
             })
-            serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`)
+            serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4)
     }
     function stop (message, serverQueue){
         if(!message.member.voice.channel)
