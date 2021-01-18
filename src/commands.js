@@ -10,17 +10,13 @@ const { lastIndexOf } = require('ffmpeg-static');
 const commands = {};
 
 function cat(message) {
-    try {
-        get('https://aws.random.cat/meow').then(res => {
-            const embed = new Discord.MessageEmbed()
-            .setTitle(`Random Cat Image`)
-            .setColor(`#f3f3f3`)
-            .setImage(res.body.file)
-            return message.channel.send({embed});
-        });
-    } catch(err) {
-        return message.channel.send(err.stack);
-    }   
+    get('https://aws.random.cat/meow').then(res => {
+        const embed = new Discord.MessageEmbed()
+        .setTitle(`Random Cat Image`)
+        .setColor(`#f3f3f3`)
+        .setImage(res.body.file)
+        return message.channel.send({embed});
+    }).catch(() => {message.channel.send("Sorry, fail to get cat pic")});
 }
 
 function help(message) {
@@ -53,12 +49,20 @@ function help(message) {
 }
 
 function message(message) {
-    message.channel.send(`hello ${message.author}`).then(msg => {msg.react(LapisEmoji.Lapis1);});
-    message.channel.send(LapisEmoji.Lapis12);
-        if(message.author.id == '256085480309915648')
+    message.channel.send(`hello ${message.author}`)
+    .then(msg => 
         {
-            message.channel.send(`Montes puto`);
-        }
+            msg.react(LapisEmoji.Lapis1)
+            message.channel.send(LapisEmoji.Lapis12);
+            if(message.author.id == '256085480309915648')
+            {
+                message.channel.send(`Montes puto`);
+            }
+        })
+    .catch(() => {
+        message.channel.send("Sorry error found to react");
+    });
+    
 }
 
 function random(message) {
@@ -278,7 +282,7 @@ function catfact(message) {
         .setColor(`RANDOM`)
         .setDescription(body.fact)
         message.channel.send(embed)
-    });
+    }).catch(() => {message.channel.send("Sorry, fail to get facts")});
     
 }
 
@@ -292,7 +296,7 @@ function meme(message) {
         .setDescription("Category " + body.category)
         .setImage(body.image)
         message.channel.send(embed)
-    });
+    }).catch(() => {message.channel.send("Sorry, fail to get memes")});
 }
 
 function lyrics(message) {
@@ -314,6 +318,8 @@ function lyrics(message) {
             .setImage(body.thumbnail.genius)
             .addField("Lyrics",`[Song link](${body.links.genius}).`)
             message.channel.send(embed)
+        }).catch(() => {
+            message.channel.send("Sorry but I couldn't found that song or there is an internal error").then(msg => {msg.react(LapisEmoji.Lapis6)})
         });
     }
 }
@@ -326,7 +332,7 @@ function men(message,args) {
 
 async function wasted1(message) {
     let url = "https://some-random-api.ml/canvas/wasted?avatar="
-    let map = message.mentions.users.array();
+    let map = await message.mentions.users.array();
     if(map.length>=4)
     {
         message.channel.send("Sorry but you can do this with max 3 users").then(msg => {msg.react(LapisEmoji.Lapis13)});
@@ -336,11 +342,11 @@ async function wasted1(message) {
         map.forEach((value, key) => {
             let user = url+value.avatarURL()
             let userend = user.replace("webp", "png")
-            get(userend).then(res =>
-                {
-                    message.channel.send(userend)
-                }
-            );
+            get(userend).then( () =>
+            {
+                message.channel.send(userend)
+            }
+            ).catch( () => {message.channel.send("Error getting pictures")});
         }) 
     } 
 }
@@ -385,13 +391,14 @@ function imageapi(message,type) {
     }
 
     get(url).then(res =>
-        {
-            let embed = new Discord.MessageEmbed()
-            .setColor(`RANDOM`)
-            .setImage(url)
-            message.channel.send(embed).then(msg => {msg.react(LapisEmoji.Lapis12)})
-        }
-    );
+    {
+        let embed = new Discord.MessageEmbed()
+        .setColor(`RANDOM`)
+        .setImage(url)
+        message.channel.send(embed).then(msg => {msg.react(LapisEmoji.Lapis12)})
+    }).catch( () => {
+        message.channel.send("Internal error").then(msg => {msg.react(LapisEmoji.Lapis6)});
+    })
 }
 
 commands.message = message;
