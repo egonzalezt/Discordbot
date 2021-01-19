@@ -23,191 +23,200 @@ client.on('ready', () => {
     console.log('Bot status: ', client.user.presence.status);
 });
  
-client.on("message", async(message) => {
-    const prefix = '?';
- 
-    const serverQueue = queue.get(message.guild.id);
- 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g)
-    const command = args.shift().toLowerCase();
-
-    let contenido = message.content;
-
-    if(contenido.includes("797947218471419952"))
-    {
-        message.react("❤️");
-    }
-
-    if (!message.content.startsWith(prefix))
-    {return;}
+try
+{
+    client.on("message", async(message) => {
+        const prefix = '?';
     
-    else
-    {
-        message.react(LapisEmoji.Lapis15);
-    switch(command){
-        case 'play':
-            execute(message, serverQueue);
-            message.react("🎵");
-            break;
-        case 'stop':
-            stop(message, serverQueue);
-            message.react("❌");
-            break;
-        case 'skip':
-            skip(message, serverQueue);
-            message.react("🎯");
-            break;
-        case 'cat':
-            commandos.cat(message);
-            break;
-        case 'help':
-            commandos.help(message);
-            break;
-        case 'hello':
-            commandos.message(message);
-            break;
-        case 'random':
-            commandos.random(message);
-            break;
-        case 'server':
-            commandos.server(message);
-            break;
-        case 'player':
-            commandos.player(message);           
-            break;
-        case 'owner':
-            commandos.owner(message);
-            break;  
-        case 'camilo':
-            message.channel.send("Que creyo que le iba a decir onichan \n pues te jodes")
-            message.channel.send(LapisEmoji.Lapis13);
-            break;
-        case 'test':
-            commandos.men(message,args);
-            break;  
-        case 'avatar':
-            commandos.avatar(message); 
-            break;
-        case 'image':
-            commandos.schimage(message);
-            break;
-        case 'aguirre':
-            commandos.aguirre(message);
-            break;
-        case 'emoji':
-            commandos.aguirre(message);
-            break;
-        case 'cls':
-            commandos.cls(message);
-            break;
-        case 'steam':
-            steam.get_id(message);
-            break;
-        case 'catfact':
-            commandos.catfact(message);
-            break;
-        case 'meme':
-            commandos.meme(message);
-            break;
-        case 'lyrics':
-            commandos.lyrics(message);
-            break;
-        case 'bw':
-            commandos.imageapi(message,1);
-            break;
-        case 'rainbow':
-            commandos.imageapi(message,2);
-             break;
-        case 'glass':
-            commandos.imageapi(message,3);
-            break;
-        case 'wasted':
-            commandos.imageapi(message,4);
-            break;
-        case 'triggered':
-            commandos.imageapi(message,5);
-            break;
-        case 'invert':
-            commandos.imageapi(message,6);
-            break;
-        case 'wasted1':
-            commandos.wasted1(message);
-            break;
-                
-        default:
-            message.channel.send("Heyy I don't recognice this command");
-            message.react("😞");
-    }
-}   
-    async function execute(message, serverQueue){
-        let vc = message.member.voice.channel;
-        if(!vc){
-            return message.channel.send("Please join a voice chat first");
-        }else{
-            let result = await searcher.search(args.join(" "), { type: "video" })
-            const songInfo = await ytdl.getInfo(result.first.url)
- 
-            let song = {
-                title: songInfo.videoDetails.title,
-                url: songInfo.videoDetails.video_url
-            };
- 
-            if(!serverQueue){
-                const queueConstructor = {
-                    txtChannel: message.channel,
-                    vChannel: vc,
-                    connection: null,
-                    songs: [],
-                    volume: 10,
-                    playing: true
-                };
-                queue.set(message.guild.id, queueConstructor);
- 
-                queueConstructor.songs.push(song);
- 
-                try{
-                    let connection = await vc.join();
-                    queueConstructor.connection = connection;
-                    play(message.guild, queueConstructor.songs[0]);
-                }catch (err){
-                    console.error(err);
-                    queue.delete(message.guild.id);
-                    return message.channel.send(`Unable to join the voice chat ${err}`)
-                }
+        const serverQueue = queue.get(message.guild.id);
+    
+        const args = message.content.slice(prefix.length).trim().split(/ +/g)
+        const command = args.shift().toLowerCase();
+
+        let contenido = message.content;
+
+        if(contenido.includes("797947218471419952"))
+        {
+            message.react("❤️");
+        }
+
+        if (!message.content.startsWith(prefix))
+        {return;}
+        
+        else
+        {
+            message.react(LapisEmoji.Lapis15);
+        switch(command)
+        {
+            case 'play':
+                execute(message, serverQueue);
+                message.react("🎵");
+                break;
+            case 'stop':
+                stop(message, serverQueue);
+                message.react("❌");
+                break;
+            case 'skip':
+                skip(message, serverQueue);
+                message.react("🎯");
+                break;
+            case 'cat':
+                commandos.cat(message);
+                break;
+            case 'help':
+                commandos.help(message);
+                break;
+            case 'hello':
+                commandos.message(message);
+                break;
+            case 'random':
+                commandos.random(message);
+                break;
+            case 'server':
+                commandos.server(message);
+                break;
+            case 'player':
+                commandos.player(message);           
+                break;
+            case 'owner':
+                commandos.owner(message);
+                break;  
+            case 'camilo':
+                message.channel.send("Que creyo que le iba a decir onichan \n pues te jodes")
+                message.channel.send(LapisEmoji.Lapis13);
+                break;
+            case 'test':
+                commandos.men(message,args);
+                break;  
+            case 'avatar':
+                commandos.avatar(message); 
+                break;
+            case 'image':
+                commandos.schimage(message);
+                break;
+            case 'aguirre':
+                commandos.aguirre(message);
+                break;
+            case 'emoji':
+                commandos.aguirre(message);
+                break;
+            case 'cls':
+                commandos.cls(message);
+                break;
+            case 'steam':
+                steam.get_id(message);
+                break;
+            case 'catfact':
+                commandos.catfact(message);
+                break;
+            case 'meme':
+                commandos.meme(message);
+                break;
+            case 'lyrics':
+                commandos.lyrics(message);
+                break;
+            case 'bw':
+                commandos.imageapi(message,1);
+                break;
+            case 'rainbow':
+                commandos.imageapi(message,2);
+                break;
+            case 'glass':
+                commandos.imageapi(message,3);
+                break;
+            case 'wasted':
+                commandos.imageapi(message,4);
+                break;
+            case 'triggered':
+                commandos.imageapi(message,5);
+                break;
+            case 'invert':
+                commandos.imageapi(message,6);
+                break;
+            case 'wasted1':
+                commandos.wasted1(message);
+                break;
+            case 'invite':
+                commandos.invite(message);
+                break;
+            default:
+                message.channel.send("Heyy I don't recognice this command");
+                message.react("😞");
+        }
+        }   
+        async function execute(message, serverQueue){
+            let vc = message.member.voice.channel;
+            if(!vc){
+                return message.channel.send("Please join a voice chat first");
             }else{
-                serverQueue.songs.push(song);
-                return message.channel.send(`The song has been added ${song.url}`);
+                let result = await searcher.search(args.join(" "), { type: "video" })
+                const songInfo = await ytdl.getInfo(result.first.url)
+    
+                let song = {
+                    title: songInfo.videoDetails.title,
+                    url: songInfo.videoDetails.video_url
+                };
+    
+                if(!serverQueue){
+                    const queueConstructor = {
+                        txtChannel: message.channel,
+                        vChannel: vc,
+                        connection: null,
+                        songs: [],
+                        volume: 10,
+                        playing: true
+                    };
+                    queue.set(message.guild.id, queueConstructor);
+    
+                    queueConstructor.songs.push(song);
+    
+                    try{
+                        let connection = await vc.join();
+                        queueConstructor.connection = connection;
+                        play(message.guild, queueConstructor.songs[0]);
+                    }catch (err){
+                        console.error(err);
+                        queue.delete(message.guild.id);
+                        return message.channel.send(`Unable to join the voice chat ${err}`)
+                    }
+                }else{
+                    serverQueue.songs.push(song);
+                    return message.channel.send(`The song has been added ${song.url}`);
+                }
             }
         }
-    }
-    function play(guild, song){
-        const serverQueue = queue.get(guild.id);
-        if(!song){
-            serverQueue.vChannel.leave();
-            queue.delete(guild.id);
-            return;
+        function play(guild, song){
+            const serverQueue = queue.get(guild.id);
+            if(!song){
+                serverQueue.vChannel.leave();
+                queue.delete(guild.id);
+                return;
+            }
+            const dispatcher = serverQueue.connection
+                .play(ytdl(song.url))
+                .on('finish', () =>{
+                    serverQueue.songs.shift();
+                    play(guild, serverQueue.songs[0]);
+                })
+                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4)
         }
-        const dispatcher = serverQueue.connection
-            .play(ytdl(song.url))
-            .on('finish', () =>{
-                serverQueue.songs.shift();
-                play(guild, serverQueue.songs[0]);
-            })
-            serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4)
-    }
-    function stop (message, serverQueue){
-        if(!message.member.voice.channel)
-            return message.channel.send("You need to join the voice chat first!")
-        serverQueue.songs = [];
-        serverQueue.connection.dispatcher.end();
-    }
-    function skip (message, serverQueue){
-        if(!message.member.voice.channel)
-            return message.channel.send("You need to join the voice chat first");
-        if(!serverQueue)
-            return message.channel.send("There is nothing to skip!");
-        serverQueue.connection.dispatcher.end();
-    }
-})
- 
+        function stop (message, serverQueue){
+            if(!message.member.voice.channel)
+                return message.channel.send("You need to join the voice chat first!")
+            serverQueue.songs = [];
+            serverQueue.connection.dispatcher.end();
+        }
+        function skip (message, serverQueue){
+            if(!message.member.voice.channel)
+                return message.channel.send("You need to join the voice chat first");
+            if(!serverQueue)
+                return message.channel.send("There is nothing to skip!");
+            serverQueue.connection.dispatcher.end();
+        }
+    })
+}
+catch(err)
+{
+    
+} 
 client.login(config.BOT_TOKEN);

@@ -9,7 +9,8 @@ const { lastIndexOf } = require('ffmpeg-static');
 
 const commands = {};
 
-function cat(message) {
+function cat(message) 
+{
     get('https://aws.random.cat/meow').then(res => {
         const embed = new Discord.MessageEmbed()
         .setTitle(`Random Cat Image`)
@@ -19,36 +20,41 @@ function cat(message) {
     }).catch(() => {message.channel.send("Sorry, fail to get cat pic")});
 }
 
-function help(message) {
-    let commando = new Discord.MessageEmbed()
-                .setTitle(`Lapis commands`)
-                .setColor(`#42e0f5`)
-                .setDescription(`Hey ${message.author}`+ " those are my commands")
-                .addField("?cat", "Return cat random pic")
-                .addField("?hello", "Lapis say hello to you")
-                .addField("?help", "This are my commands")
-                .addField("?play", "To play youtube music")
-                .addField("?skip" ,"To skip the music in the queue")
-                .addField("?stop" ,"To stop and disconnect the bot")
-                .addField("?server", "To see the server specs ")
-                .addField("?random", "To generate a random number")
-                .addField("?image something", "Lapis send a picture ")
-                .addField("?player", "To see your or another user profile")
-                .addField("?emoji", "Lapis send to you a random emoji")
-                .addField("?cls", "Clear 5 messages on current chat")
-                .addField("?steam player", "To see steam basic player info")
-                .addField("?meme","Lapis send to you a random meme")
-                .addField("?lyrics song name","Get a song info")
-                .addField("?catfact","Interesting info about cats")
-                .addField("?bw","Transform player avatar to black and white")
-                .addField("?rainbow","Transform player profile pic with rainbow")
-                .addField("?wasted","User profile pic gta wasted style")
-                .addField("?wasted1","3 users profile pic gta wasted style")
-                message.author.send(commando);
-                message.channel.send("Hey look at your dm!!")
+function help(message) 
+{
+    message.channel.send("Hey look at your dm!!").then(msg => {
+        let commando = new Discord.MessageEmbed()
+            .setTitle(`Lapis commands`)
+            .setColor(`#42e0f5`)
+            .setAuthor("Lapis bot",msg.author.avatarURL())
+            .setDescription(`Hey ${message.author} those are my commands`)
+            .addField("?invite","To invite lapis on your server")
+            .addField("?cat", "Return cat random pic")
+            .addField("?hello", "Lapis say hello to you")
+            .addField("?help", "This are my commands")
+            .addField("?play", "To play youtube music")
+            .addField("?skip" ,"To skip the music in the queue")
+            .addField("?stop" ,"To stop and disconnect the bot")
+            .addField("?server", "To see the server specs ")
+            .addField("?random", "To generate a random number")
+            .addField("?image something", "Lapis send a picture ")
+            .addField("?player", "To see your or another user profile")
+            .addField("?emoji", "Lapis send to you a random emoji")
+            .addField("?cls", "Clear 5 messages on current chat")
+            .addField("?steam player", "To see steam basic player info")
+            .addField("?meme","Lapis send to you a random meme")
+            .addField("?lyrics song name","Get a song info")
+            .addField("?catfact","Interesting info about cats")
+            .addField("?bw","Transform player avatar to black and white")
+            .addField("?rainbow","Transform player profile pic with rainbow")
+            .addField("?wasted","User profile pic gta wasted style")
+            .addField("?wasted1","3 users profile pic gta wasted style")
+        message.author.send(commando);
+    });
 }
 
-function message(message) {
+function message(message) 
+{
     message.channel.send(`hello ${message.author}`)
     .then(msg => 
         {
@@ -60,28 +66,30 @@ function message(message) {
             }
         })
     .catch(() => {
-        message.channel.send("Sorry error found to react");
+        message.channel.send("Sorry ");
     });
     
 }
 
-function random(message) {
+function random(message) 
+{
     const number = Math.random(); // generates a random number
-    message.channel.send(number.toString()); // sends a message to the channel with the number
+    message.channel.send(number.toString()+LapisEmoji.Lapis5); // sends a message to the channel with the number
 }
 
-function server(message) {
+function server(message) 
+{
     // uses Nodejs module os to get system specs
     const embe = new Discord.MessageEmbed()
-                .setTitle(`Server specs`)
-                .setColor(`RANDOM`)
-                .addField("Your amount of ram memory",os.totalmem())
-                .addField("Free memory ram on your system",os.freemem())
-                .addField("Your os ver",os.release())
-                .addField("Platform ",os.platform())
-                message.channel.send(embe).then(function(send) {
-                    send.react(LapisEmoji.Lapis4);
-                });
+        .setTitle(`Server specs`)
+        .setColor(`RANDOM`)
+        .addField("Your amount of ram memory",os.totalmem())
+        .addField("Free memory ram on your system",os.freemem())
+        .addField("Your os ver",os.release())
+        .addField("Platform ",os.platform())
+        message.channel.send(embe).then(send => {
+            send.react(LapisEmoji.Lapis4);
+        });
 }
 
 function player(message) {
@@ -92,9 +100,11 @@ function player(message) {
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
+        .setAuthor("User " + message.author.username, message.author.avatarURL())
         .setTitle(message.author.username)
         .setDescription("hey hey look at my profile")
         .addField("My id",message.author.discriminator)
+        .addField("Joined at",message.author.createdAt)
         .setImage(message.author.avatarURL())
         message.channel.send(embed);
         //console.log(message.content)
@@ -336,6 +346,9 @@ async function wasted1(message) {
     if(map.length>=4)
     {
         message.channel.send("Sorry but you can do this with max 3 users").then(msg => {msg.react(LapisEmoji.Lapis13)});
+    }else if(map.length==0)
+    {
+        message.channel.send("Tag one or more users(max 3), or use ?wasted")
     }
     else
     {
@@ -401,6 +414,11 @@ function imageapi(message,type) {
     })
 }
 
+function invite(message)
+{
+    message.channel.send("Here it is ->" + "https://discord.com/api/oauth2/authorize?client_id=797947218471419952&permissions=8&scope=bot");
+}
+
 commands.message = message;
 commands.help = help;
 commands.cat = cat;
@@ -418,5 +436,6 @@ commands.lyrics = lyrics;
 commands.imageapi = imageapi;
 commands.schimage = schimage;
 commands.wasted1 = wasted1;
+commands.invite = invite;
 
 module.exports = commands;
