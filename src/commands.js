@@ -416,7 +416,7 @@ function imageapi(message,type) {
 
 function invite(message)
 {
-    message.channel.send("Here it is ->" + "https://discord.com/api/oauth2/authorize?client_id=797947218471419952&permissions=8&scope=bot");
+    message.channel.send("There is it ->" + "https://discord.com/api/oauth2/authorize?client_id=797947218471419952&permissions=8&scope=bot");
 }
 
 commands.message = message;
