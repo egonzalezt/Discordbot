@@ -4,6 +4,7 @@ const config = require("./config.json");
 const { YTSearcher } = require('ytsearcher');
 const commandos = require('./commands.js');
 const steam = require('./steam.js');
+const gemcommand = require('./gem.js');
 const LapisEmoji = require("./emoji.json")
 
 const searcher = new YTSearcher({
@@ -138,6 +139,9 @@ try
                 break;
             case 'invite':
                 commandos.invite(message);
+                break;
+            case 'gem':
+                gemcommand.gem(message);
                 break;
             default:
                 message.channel.send("Heyy I don't recognice this command");

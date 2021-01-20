@@ -49,6 +49,7 @@ function help(message)
             .addField("?rainbow","Transform player profile pic with rainbow")
             .addField("?wasted","User profile pic gta wasted style")
             .addField("?wasted1","3 users profile pic gta wasted style")
+            .addField("?gem","Lapis send a random SU character")
         message.author.send(commando);
     });
 }
