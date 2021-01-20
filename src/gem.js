@@ -15,7 +15,7 @@ const gemlist = ["Rose_Quartz","Pearl","Amethyst","Ruby","Sapphire","Peridot","B
 function gem(message)
 {
     //var parts = message.content.split(" ");
-    var gem = gemlist[Math.floor(Math.random() * gemlist.length)]
+    var gem = gemlist[Math.floor(Math.random() * gemlist.length)];
     var search = "Steven Universe "+gem; // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
     
     var options = {
