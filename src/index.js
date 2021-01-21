@@ -46,7 +46,7 @@ try
         
         else
         {
-            message.react(LapisEmoji.Lapis15);
+            message.react(LapisEmoji.Lapis15.Emoji);
         switch(command)
         {
             case 'play':
@@ -84,7 +84,13 @@ try
                 break;  
             case 'camilo':
                 message.channel.send("Que creyo que le iba a decir onichan \n pues te jodes")
-                message.channel.send(LapisEmoji.Lapis13);
+                message.channel.send(LapisEmoji.Lapis13.Emoji);
+                message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == LapisEmoji.Lapis15.id),
+                { max: 1, time: 30000 }).then(collected => {
+                    if (collected.first().emoji.id == LapisEmoji.Lapis15.id) {
+                        message.channel.send("https://tenor.com/view/steven-universe-lapis-lazuli-gif-8003932");
+                    }
+                }).catch(() => { });
                 break;
             case 'test':
                 commandos.men(message,args);
@@ -202,7 +208,7 @@ try
                     serverQueue.songs.shift();
                     play(guild, serverQueue.songs[0]);
                 })
-                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4)
+                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4.id)
         }
         function stop (message, serverQueue){
             if(!message.member.voice.channel)
