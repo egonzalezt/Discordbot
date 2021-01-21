@@ -6,8 +6,20 @@ const request = require("request");
 const fetch = require("node-fetch");
 const LapisEmoji = require("./emoji.json");
 const { lastIndexOf } = require('ffmpeg-static');
+const { errorMonitor } = require('stream');
 
 const commands = {};
+
+
+function error(message)
+{
+    var fail = "https://media1.tenor.com/images/10b4e6780975558e86591258284ab55f/tenor.gif";
+    const embed = new Discord.MessageEmbed()
+    .setColor(`#f3f3f3`)
+    .setImage(fail)
+    //.attachFiles([fail]);
+    return message.channel.send({embed});
+}
 
 function cat(message) 
 {
@@ -17,7 +29,9 @@ function cat(message)
         .setColor(`#f3f3f3`)
         .setImage(res.body.file)
         return message.channel.send({embed});
-    }).catch(() => {message.channel.send("Sorry, fail to get cat pic")});
+    }).catch(() => {
+        error(message);
+    });
 }
 
 function help(message) 
@@ -51,6 +65,8 @@ function help(message)
             .addField("?wasted1","3 users profile pic gta wasted style")
             .addField("?gem","Lapis send a random SU character")
         message.author.send(commando);
+    }).catch( () => {
+        error(message);
     });
 }
 
@@ -69,10 +85,10 @@ function message(message)
                     if (collected.first().emoji.id == LapisEmoji.Lapis15.id) {
                         message.channel.send("https://tenor.com/view/steven-universe-lapis-lazuli-gif-7334165");
                     }
-            }).catch(() => { });
+            }).catch(() => {});
         })
     .catch(() => {
-        message.channel.send("Sorry ");
+        error(message);
     });
     
 }
@@ -112,14 +128,13 @@ function player(message) {
         .addField("My id",message.author.discriminator)
         .addField("Joined at",message.author.createdAt)
         .setImage(message.author.avatarURL())
-        message.channel.send(embed);
+        message.channel.send(embed).then(()=>{}).catch( ()=>{error(message);});
         //console.log(message.content)
     }
     else if(getuser.includes("@"))
     {
-        try
-        {
-            let user = message.mentions.users.first().username;
+
+        let user = message.mentions.users.first().username;
         //message.channel.send("User " + user);
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
@@ -127,12 +142,7 @@ function player(message) {
             .setDescription("hey hey look at my profile")
             .addField("My id ", message.mentions.users.first().discriminator)
             .setImage(message.mentions.users.first().avatarURL())
-            message.channel.send(embed);
-        }
-        catch
-        {
-            message.channel.send("Invalid user")
-        }
+            message.channel.send(embed).then(msg => {}).catch((err)=>{error(message);message.channel.send("Invalid user");});
     }
 }
 
@@ -151,12 +161,11 @@ function owner(message) {
         .addField("Member Count  This server has ", message.guild.memberCount + " members")
         .addField("Emoji Count This server has ", message.guild.emojis.cache.size + " emojis")
         .addField("Roles Count This server has ", message.guild.roles.cache.size + " roles")
-        message.channel.send(embed);    
+        message.channel.send(embed).then(msg => {}).catch(err => {error(message);});    
 }
 
 function avatar(message)
 {
-
     let getuser = message.content;//get the message content from the json
 
     if(!getuser.includes("@"))//send the user profile if they didn't pin other user
@@ -182,6 +191,7 @@ function avatar(message)
         catch//send a error message if something happends
         {
             message.channel.send("Invalid user")
+            error(message);
         }
     }
 }
@@ -202,31 +212,40 @@ function schimage(message) {
             "User-Agent": "Chrome"
         }
     };
-    request(options, async function(error, response, responseBody) {
-        if (error) {
+    try
+    {
+        request(options, async function(error1, response, responseBody) {
+            if (error1) {
             // handle error
-            return;
-        }
+                error(message);
+                return;
+            }
  
-        /* Extract image URLs from responseBody using cheerio */
+            /* Extract image URLs from responseBody using cheerio */
  
-        $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
+            $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
  
-        // In this search engine they use ".image a.link" as their css selector for image links
-        var links = $(".image a.link");
+            // In this search engine they use ".image a.link" as their css selector for image links
+            var links = $(".image a.link");
  
-        // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
-        // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
-        var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
-        //console.log(urls);
-        if (!urls.length) {
-            // Handle no results
-            return;
-        }
+            // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
+             // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
+            var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
+            //console.log(urls);
+            if (!urls.length) {
+                // Handle no results
+                error(message);
+                return;
+            }
  
-        // Send result
-        message.channel.send("There it is dude "+ message.author.username+"\n"+urls[0] );
-    });
+            // Send result
+            message.channel.send("There it is dude "+ message.author.username+"\n"+urls[0] );
+        });
+    }
+    catch
+    {
+        error(message);
+    }
  
 }
 
@@ -298,7 +317,7 @@ function catfact(message) {
         .setColor(`RANDOM`)
         .setDescription(body.fact)
         message.channel.send(embed)
-    }).catch(() => {message.channel.send("Sorry, fail to get facts")});
+    }).catch(() => {error(message);});
     
 }
 
@@ -311,8 +330,8 @@ function meme(message) {
         .setColor(`RANDOM`)
         .setDescription("Category " + body.category)
         .setImage(body.image)
-        message.channel.send(embed)
-    }).catch(() => {message.channel.send("Sorry, fail to get memes")});
+        message.channel.send(embed);
+    }).catch(() => {error(message);});
 }
 
 function lyrics(message) {
@@ -335,7 +354,7 @@ function lyrics(message) {
             .addField("Lyrics",`[Song link](${body.links.genius}).`)
             message.channel.send(embed)
         }).catch(() => {
-            message.channel.send("Sorry but I couldn't found that song or there is an internal error").then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)})
+            error(message).then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)})
         });
     }
 }
@@ -343,7 +362,15 @@ function lyrics(message) {
 function men(message,args) {
     console.log(message.content);
     //message.channel.send(`${"<:maincra:434164447548932107>"}`)
-    message.channel.send(args);
+    //message.channel.send(args);
+    //get("https://tenor.com/GIKC.gif").then(result => {console.log(result)});
+    message.channel.send("Loading..."+ "https://media1.tenor.com/images/cee0050ee665b830cb5e56a4895a74f4/tenor.gif").then(msg => {
+        get("https://some-random-api.ml/facts/cat").then(res => 
+        {
+            msg.delete();
+            message.channel.send(res.body.fact)
+        });
+    });
 }
 
 async function wasted1(message) {
@@ -365,7 +392,7 @@ async function wasted1(message) {
             {
                 message.channel.send(userend)
             }
-            ).catch( () => {message.channel.send("Error getting pictures")});
+            ).catch( () => {error(message);});
         }) 
     } 
 }
@@ -408,16 +435,20 @@ function imageapi(message,type) {
         let avatarurl = message.mentions.users.first().avatarURL({size: 1024})
         url += `${avatarurl.replace("webp", "png")}`;
     }
-
-    get(url).then(res =>
-    {
-        let embed = new Discord.MessageEmbed()
-        .setColor(`RANDOM`)
-        .setImage(url)
-        message.channel.send(embed).then(msg => {msg.react(LapisEmoji.Lapis12.Emoji)})
-    }).catch( () => {
-        message.channel.send("Internal error").then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)});
+    message.channel.send("Loading..."+ "https://media1.tenor.com/images/cee0050ee665b830cb5e56a4895a74f4/tenor.gif").then(msg => {
+        get(url).then(res =>
+            {
+                msg.delete();
+                let embed = new Discord.MessageEmbed()
+                .setColor(`RANDOM`)
+                .setImage(url)
+                message.channel.send(embed).then(msg => {msg.react(LapisEmoji.Lapis12.Emoji)})
+            }).catch( () => {
+                msg.delete();
+                error(message).then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)});
+            })        
     })
+
 }
 
 function invite(message)

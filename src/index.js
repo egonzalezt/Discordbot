@@ -208,7 +208,7 @@ try
                     serverQueue.songs.shift();
                     play(guild, serverQueue.songs[0]);
                 })
-                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4.id)
+                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4.Emoji)
         }
         function stop (message, serverQueue){
             if(!message.member.voice.channel)
