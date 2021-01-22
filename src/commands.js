@@ -491,5 +491,6 @@ commands.schimage = schimage;
 commands.wasted1 = wasted1;
 commands.invite = invite;
 commands.dog = dog;
+commands.error = error;
 
 module.exports = commands;

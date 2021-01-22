@@ -187,10 +187,11 @@ try
                         let connection = await vc.join();
                         queueConstructor.connection = connection;
                         play(message.guild, queueConstructor.songs[0]);
-                    }catch (err){
+                    }catch (err)
+                    {
                         console.error(err);
                         queue.delete(message.guild.id);
-                        return message.channel.send(`Unable to join the voice chat ${err}`)
+                        return commandos.error(message); //message.channel.send(`Unable to join the voice chat ${err}`)
                     }
                 }else{
                     serverQueue.songs.push(song);
@@ -205,6 +206,12 @@ try
                 queue.delete(guild.id);
                 return;
             }
+            if(!message.member.voice.channel)
+            {
+                serverQueue.songs = [];
+                serverQueue.connection.dispatcher.end();
+                serverQueue.vChannel.leave();
+            }            
             const dispatcher = serverQueue.connection
                 .play(ytdl(song.url))
                 .on('finish', () =>{
