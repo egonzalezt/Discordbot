@@ -34,6 +34,19 @@ function cat(message)
     });
 }
 
+function dog(message) 
+{
+    get('https://dog.ceo/api/breeds/image/random').then(res => {
+        const embed = new Discord.MessageEmbed()
+        .setTitle(`Random Dog Image`)
+        .setColor(`#f3f3f3`)
+        .setImage(res.body.message)
+        return message.channel.send({embed});
+    }).catch(() => {
+        error(message);
+    });
+}
+
 function help(message) 
 {
     message.channel.send("Hey look at your dm!!").then(msg => {
@@ -62,6 +75,7 @@ function help(message)
             .addField("?bw","Transform player avatar to black and white")
             .addField("?rainbow","Transform player profile pic with rainbow")
             .addField("?wasted","User profile pic gta wasted style")
+            .addField("?triggered","your avatar get triggered")
             .addField("?wasted1","3 users profile pic gta wasted style")
             .addField("?gem","Lapis send a random SU character")
         message.author.send(commando);
@@ -81,7 +95,7 @@ function message(message)
                 message.channel.send(`Montes puto`);
             }
             message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == LapisEmoji.Lapis15.id),
-                { max: 1, time: 30000 }).then(collected => {
+                { max: 1, time: 10000 }).then(collected => {
                     if (collected.first().emoji.id == LapisEmoji.Lapis15.id) {
                         message.channel.send("https://tenor.com/view/steven-universe-lapis-lazuli-gif-7334165");
                     }
@@ -386,10 +400,12 @@ async function wasted1(message) {
     else
     {
         map.forEach((value, key) => {
-            let user = url+value.avatarURL()
-            let userend = user.replace("webp", "png")
+            let user = url+value.avatarURL();
+            let userend = user.replace("webp", "png");
+            message.channel.startTyping();
             get(userend).then( () =>
             {
+                message.channel.stopTyping(true);
                 message.channel.send(userend)
             }
             ).catch( () => {error(message);});
@@ -397,7 +413,8 @@ async function wasted1(message) {
     } 
 }
 
-function imageapi(message,type) {
+function imageapi(message,type) 
+{
     var url = ``;
 
     if(type == 1)
@@ -419,7 +436,6 @@ function imageapi(message,type) {
     else if(type == 5)
     {
         url = `https://some-random-api.ml/canvas/triggered?avatar=`
-        message.channel.send("Sorry this command fails").then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)});
     }
     else if(type == 6)
     {
@@ -439,10 +455,9 @@ function imageapi(message,type) {
         get(url).then(res =>
             {
                 msg.delete();
-                let embed = new Discord.MessageEmbed()
-                .setColor(`RANDOM`)
-                .setImage(url)
-                message.channel.send(embed).then(msg => {msg.react(LapisEmoji.Lapis12.Emoji)})
+                //message.channel.attachFiles([url]);
+                const attach = new Discord.MessageAttachment(url)
+                message.channel.send(attach).then(msg => {msg.react(LapisEmoji.Lapis12.Emoji)});
             }).catch( () => {
                 msg.delete();
                 error(message).then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)});
@@ -474,5 +489,6 @@ commands.imageapi = imageapi;
 commands.schimage = schimage;
 commands.wasted1 = wasted1;
 commands.invite = invite;
+commands.dog = dog;
 
 module.exports = commands;

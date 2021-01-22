@@ -146,6 +146,9 @@ try
             case 'invite':
                 commandos.invite(message);
                 break;
+            case 'dog':
+                commandos.dog(message);
+                break;
             case 'gem':
                 gemcommand.gem(message);
                 break;
