@@ -51,7 +51,7 @@ try
         {
             case 'play':
                 execute(message, serverQueue);
-                message.react("🎵");
+                message.react(LapisEmoji.Lapis16.Emoji);
                 break;
             case 'stop':
                 stop(message, serverQueue);
@@ -218,7 +218,7 @@ try
                     serverQueue.songs.shift();
                     play(guild, serverQueue.songs[0]);
                 })
-                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis4.Emoji)
+                serverQueue.txtChannel.send(`Now playing ${serverQueue.songs[0].url}`+ LapisEmoji.Lapis16.Emoji)
         }
         function stop (message, serverQueue){
             if(!message.member.voice.channel)
