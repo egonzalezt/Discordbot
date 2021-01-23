@@ -1,12 +1,10 @@
 const Discord = require('discord.js');
-const {get, unsubscribe} = require("snekfetch");
+const {get} = require("snekfetch");
 const os = require('os');
 const cheerio = require("cheerio");
 const request = require("request");
 const fetch = require("node-fetch");
 const LapisEmoji = require("./emoji.json");
-const { lastIndexOf } = require('ffmpeg-static');
-const { errorMonitor } = require('stream');
 
 const commands = {};
 
@@ -91,11 +89,7 @@ function message(message)
     .then(msg => 
         {
             msg.react(LapisEmoji.Lapis1.Emoji)
-            if(message.author.id == '256085480309915648')
-            {
-                message.channel.send(`Montes puto`);
-            }
-            message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == LapisEmoji.Lapis15.id),
+            msg.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == LapisEmoji.Lapis15.id),
                 { max: 1, time: 10000 }).then(collected => {
                     if (collected.first().emoji.id == LapisEmoji.Lapis15.id) {
                         message.channel.send("https://tenor.com/view/steven-universe-lapis-lazuli-gif-7334165");
@@ -131,9 +125,7 @@ function server(message)
 
 function player(message) {
 
-    let getuser = message.content;//gets the content of the message in the json
-
-    if(!getuser.includes("@"))//detect if the message don't content @ to send message owner user info
+    if(!message.mentions.users.first())//detect if the message don't content @ to send message owner user info
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
@@ -142,28 +134,25 @@ function player(message) {
         .setDescription("hey hey look at my profile")
         .addField("My id",message.author.discriminator)
         .addField("Joined at",message.author.createdAt)
-        .setImage(message.author.avatarURL())
+        .setImage(message.author.avatarURL({size: 1024}))
         message.channel.send(embed).then(()=>{}).catch( ()=>{error(message);});
-        //console.log(message.content)
     }
-    else if(getuser.includes("@"))
+    else if(message.mentions.users.first())
     {
-
-        let user = message.mentions.users.first().username;
-        //message.channel.send("User " + user);
         const embed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTitle(message.mentions.users.first().username)
             .setDescription("hey hey look at my profile")
             .addField("My id ", message.mentions.users.first().discriminator)
-            .setImage(message.mentions.users.first().avatarURL())
+            .setImage(message.mentions.users.first().avatarURL({size: 1024}))
+            .addField("Joined at",message.mentions.users.first().createdAt)
             message.channel.send(embed).then(msg => {}).catch((err)=>{error(message);message.channel.send("Invalid user");});
     }
 }
 
 /*
 
-function that provide the server information
+function that provide the server information?
 
 */
 function owner(message) {
@@ -181,9 +170,7 @@ function owner(message) {
 
 function avatar(message)
 {
-    let getuser = message.content;//get the message content from the json
-
-    if(!getuser.includes("@"))//send the user profile if they didn't pin other user
+    if(!message.mentions.users.first())//send the user profile if they didn't pin other user
     {
         const embed = new Discord.MessageEmbed()
         .setColor('#42e0f5')
@@ -192,7 +179,7 @@ function avatar(message)
         .setImage(message.author.avatarURL({size: 2048}))
         message.channel.send(embed);
     }
-    else if(getuser.includes("@"))//detect if the user contains @
+    else if(message.mentions.users.first())//detect if the user contains @
     {
         try//send and embed message with the info and handle errors if the rol didn't exist
         {
@@ -401,7 +388,7 @@ async function wasted1(message) {
     else
     {
         map.forEach((value, key) => {
-            let user = url+value.avatarURL();
+            let user = url+value.avatarURL({size: 1024});
             let userend = user.replace("webp", "png");
             message.channel.startTyping();
             get(userend).then( () =>
@@ -464,7 +451,6 @@ function imageapi(message,type)
                 error(message).then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)});
             })        
     })
-
 }
 
 function invite(message)

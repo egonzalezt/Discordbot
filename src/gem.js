@@ -65,6 +65,11 @@ function gem(message)
 
 }
 
+function lapis(message)
+{
+    
+}
+
 gemcommand.gem = gem;
 
 module.exports = gemcommand;
