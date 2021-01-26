@@ -6,7 +6,6 @@ const commandos = require('./commands.js');
 const steam = require('./steam.js');
 const gemcommand = require('./gem.js');
 const LapisEmoji = require("./emoji.json");
-const commands = require('./commands.js');
 
 const searcher = new YTSearcher({
     key: "AIzaSyAnxw4roCTZRyOsohF56qfIKAzSzfAqXdU",
@@ -29,13 +28,9 @@ try
 {
     client.on("message", async(message) => {
         const prefix = '?';
-        var serverQueue;
-        var messageDM=false;
-        if(!message.guild === null)
-        {
-            serverQueue = queue.get(message.guild.id);
-        }
-
+        
+        const args = message.content.slice(prefix.length).trim().split(/ +/g);
+        const command = args.shift().toLowerCase();
         let contenido = message.content;
 
         if(contenido.includes("797947218471419952"))
@@ -68,9 +63,9 @@ try
         }
         else
         {
-            const args = message.content.slice(prefix.length).trim().split(/ +/g)
-            const command = args.shift().toLowerCase();
 
+            const serverQueue = queue.get(message.guild.id);
+            
             if(command)
             {
                 message.react(LapisEmoji.Lapis15.Emoji);
@@ -190,7 +185,6 @@ try
                     message.react("😞");
                 } 
             }
-        }
            
         async function execute(message, serverQueue){
             let vc = message.member.voice.channel;
@@ -268,6 +262,7 @@ try
                 return message.channel.send("There is nothing to skip!");
             serverQueue.connection.dispatcher.end();
         }
+    }
     })
 }
 catch
