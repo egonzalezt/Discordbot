@@ -345,7 +345,9 @@ function lyrics(message) {
     }
     else
     {
-        let song = args[1];
+        args.shift();
+        let song = args.toString().replace(/,/g," ");
+        //console.log(args[1]);
         let url = "https://some-random-api.ml/lyrics?title="+song;
         fetch(url).then(res => res.json()).then(body => {
             let embed = new Discord.MessageEmbed()
@@ -359,20 +361,6 @@ function lyrics(message) {
             error(message).then(msg => {msg.react(LapisEmoji.Lapis6.Emoji)})
         });
     }
-}
-
-function men(message,args) {
-    console.log(message.content);
-    //message.channel.send(`${"<:maincra:434164447548932107>"}`)
-    //message.channel.send(args);
-    //get("https://tenor.com/GIKC.gif").then(result => {console.log(result)});
-    message.channel.send("Loading..."+ "https://media1.tenor.com/images/cee0050ee665b830cb5e56a4895a74f4/tenor.gif").then(msg => {
-        get("https://some-random-api.ml/facts/cat").then(res => 
-        {
-            msg.delete();
-            message.channel.send(res.body.fact)
-        });
-    });
 }
 
 async function wasted1(message) {
@@ -462,6 +450,60 @@ function invite(message)
         message.channel.send(embed)
 }
 
+function userequest(message,args)
+{
+    try
+    {
+        if(message.mentions.users.first())
+        {
+            let user1 = message.mentions.users.first();
+            if(!user1.bot)
+            {
+                args.shift();
+                let messageU = args.toString().replace(/,/g," ");
+                user1.send(message.author.username+" needs you on "+message.channel.name+" From "+message.channel.guild.name+" Server and says \n"+messageU)
+                .then(msg => {
+                    msg.react(LapisEmoji.Lapis15.Emoji)
+                        msg.awaitReactions((reaction, user) => (reaction.emoji.id == LapisEmoji.Lapis15.id),
+                                { max: 2, time: 10000 }).then(collected => {
+                                    if (collected.first().emoji.id == LapisEmoji.Lapis15.id) {
+                                        message.author.send("Hey "+message.author.username+", "+msg.channel.recipient.username+" React to your message.");
+                                    }
+                            }).catch(() => {});
+                });
+            }
+            else
+            {
+                message.channel.send("Sorry but this is not an user")
+            }
+        }
+        else
+        {
+            message.channel.send("First at all I need a user");
+        }
+    }
+    catch
+    {
+        message.channel.send("Error")
+    }
+ 
+}
+
+
+function men(message,args) {
+    console.log(message.content);
+    //message.channel.send(`${"<:maincra:434164447548932107>"}`)
+    //message.channel.send(args);
+    //get("https://tenor.com/GIKC.gif").then(result => {console.log(result)});
+    message.channel.send("Loading..."+ "https://media1.tenor.com/images/cee0050ee665b830cb5e56a4895a74f4/tenor.gif").then(msg => {
+        get("https://some-random-api.ml/facts/cat").then(res => 
+        {
+            msg.delete();
+            message.channel.send(res.body.fact)
+        });
+    });
+}
+
 commands.message = message;
 commands.help = help;
 commands.cat = cat;
@@ -482,5 +524,6 @@ commands.wasted1 = wasted1;
 commands.invite = invite;
 commands.dog = dog;
 commands.error = error;
+commands.userequest = userequest;
 
 module.exports = commands;

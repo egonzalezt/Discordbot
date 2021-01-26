@@ -28,11 +28,12 @@ try
 {
     client.on("message", async(message) => {
         const prefix = '?';
-    
-        const serverQueue = queue.get(message.guild.id);
-    
-        const args = message.content.slice(prefix.length).trim().split(/ +/g)
-        const command = args.shift().toLowerCase();
+        var serverQueue;
+        var messageDM=false;
+        if(!message.guild === null)
+        {
+            serverQueue = queue.get(message.guild.id);
+        }
 
         let contenido = message.content;
 
@@ -41,14 +42,37 @@ try
             message.react("❤️");
         }
 
-        if (!message.content.startsWith(prefix))
-        {return;}
-        
+
+        if(message.channel.type ==="dm")
+        {
+            //console.log(message.author);
+            let user = message.author;
+            user.send("hello, how's it going ? \n I am Lapis bot, I have many built-in commands that will helps you. to do this you will need to invite me to your group and if you have doubts no problem react my emoji from your message and you get my commands")
+            .then( () => {message.react(LapisEmoji.Lapis15.Emoji);})
+            .then(msg => {
+                message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == LapisEmoji.Lapis15.id),
+                { max: 1, time: 10000 }).then(collected => {
+                    if (collected.first().emoji.id == LapisEmoji.Lapis15.id) 
+                    {
+                        commandos.help(message);
+                    }
+                }).catch(() => {});
+            })
+            .catch(()=>{});
+
+        }
+        else if (!message.content.startsWith(prefix))
+        {
+            return;
+        }
         else
         {
+            const args = message.content.slice(prefix.length).trim().split(/ +/g)
+            const command = args.shift().toLowerCase();
+
             message.react(LapisEmoji.Lapis15.Emoji);
-        switch(command)
-        {
+            switch(command)
+            {
             case 'play':
                 execute(message, serverQueue);
                 message.react(LapisEmoji.Lapis16.Emoji);
@@ -152,11 +176,16 @@ try
             case 'gem':
                 gemcommand.gem(message);
                 break;
+            case 'urequest':
+                commandos.userequest(message,args);
+                break;
             default:
                 message.channel.send("Heyy I don't recognice this command");
                 message.react("😞");
+                
+            }
         }
-        }   
+           
         async function execute(message, serverQueue){
             let vc = message.member.voice.channel;
             if(!vc){
@@ -235,7 +264,7 @@ try
         }
     })
 }
-catch(err)
+catch
 {
     
 } 
