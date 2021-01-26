@@ -5,7 +5,8 @@ const { YTSearcher } = require('ytsearcher');
 const commandos = require('./commands.js');
 const steam = require('./steam.js');
 const gemcommand = require('./gem.js');
-const LapisEmoji = require("./emoji.json")
+const LapisEmoji = require("./emoji.json");
+const commands = require('./commands.js');
 
 const searcher = new YTSearcher({
     key: "AIzaSyAnxw4roCTZRyOsohF56qfIKAzSzfAqXdU",
@@ -70,7 +71,10 @@ try
             const args = message.content.slice(prefix.length).trim().split(/ +/g)
             const command = args.shift().toLowerCase();
 
-            message.react(LapisEmoji.Lapis15.Emoji);
+            if(command)
+            {
+                message.react(LapisEmoji.Lapis15.Emoji);
+            } 
             switch(command)
             {
             case 'play':
@@ -180,9 +184,11 @@ try
                 commandos.userequest(message,args);
                 break;
             default:
-                message.channel.send("Heyy I don't recognice this command");
-                message.react("😞");
-                
+                if(command)
+                {
+                    message.channel.send("Heyy I don't recognice this command");
+                    message.react("😞");
+                } 
             }
         }
            
