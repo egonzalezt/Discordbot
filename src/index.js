@@ -128,7 +128,7 @@ try
                 commandos.aguirre(message);
                 break;
             case 'emoji':
-                commandos.aguirre(message);
+                commandos.emoji(message);
                 break;
             case 'cls':
                 commandos.cls(message);

@@ -258,7 +258,55 @@ var emojis = [
     '🈂','Ⓜ','🛂','🛄','🛅','🛃','🉑','㊙','㊗','🆑','🆘','🆔','🚫','🔞','📵','🚯','🚱','🚳','🚷','🚸','⛔','✳','❇','❎','✅','✴','💟','🆚','📳','📴','🅰','🅱','🆎','🅾','💠','➿','♻','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','⛎','🔯','🏧','💹','💲','💱','©','®','™','〽','〰','🔝','🔚','🔙','🔛','🔜','❌','⭕','❗','❓','❕','❔','🔃','🕛','🕧','🕐','🕜','🕑','🕝','🕒','🕞','🕓','🕟','🕔','🕠','🕕','🕖','🕗','🕘','🕙','🕚','🕡','🕢','🕣','🕤','🕥','🕦','✖','➕','➖','➗','♠','♥','♣','♦','💮','💯','✔','☑','🔘','🔗','➰','🔱','🔲','🔳','◼','◻','◾','◽','▪','▫','🔺','⬜','⬛','⚫','⚪','🔴','🔵','🔻','🔶','🔷','🔸','🔹'
 ];
 
-function aguirre(message) {
+async function aguirre(message) {
+    
+    const args = message.content.split(' ');
+    var num = 5;
+    var cond = true;
+
+    if(args[1])
+    {
+        num = args[1]
+
+        if(parseInt(num))
+        {
+            num = parseInt(num);
+            if(num > 10)
+            {
+                message.channel.send("Solo puedo generar 10 emojis como dijo Aguirre");
+                message.react(LapisEmoji.Lapis13.Emoji);
+                cond = false;
+            }
+        }
+        else
+        {
+            cond = false;
+            message.channel.send("Necesito un numero")
+            message.react(LapisEmoji.Lapis6.Emoji);
+        }
+
+    }
+
+    if (cond)
+    {
+        var prediccion = ['o'];
+        message.channel.send("Ok vamos a ver que te depara el futuro.").then(msg => {msg.react(LapisEmoji.Lapis1.Emoji)
+            prediccion.pop()
+            for (let i = 0; i < num; i++)
+            {        
+                prediccion.push((emojis[Math.floor(Math.random() * emojis.length)]));
+            }
+        }).then(async () => {
+            for (let i = 0; i < num; i++)
+            {        
+                await message.channel.send(prediccion.pop())
+            }
+        });
+
+    }   
+}
+
+function emoji(message) {
     message.channel.send(emojis[Math.floor(Math.random() * emojis.length)]);
 }
 
@@ -525,5 +573,6 @@ commands.invite = invite;
 commands.dog = dog;
 commands.error = error;
 commands.userequest = userequest;
+commands.emoji = emoji;
 
 module.exports = commands;
