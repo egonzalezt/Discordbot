@@ -125,7 +125,9 @@ try
                 commandos.schimage(message);
                 break;
             case 'aguirre':
-                commandos.aguirre(message);
+                setTimeout(() => {
+                    commandos.aguirre(message);
+                }, 1000);
                 break;
             case 'emoji':
                 commandos.emoji(message);

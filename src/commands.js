@@ -258,8 +258,8 @@ var emojis = [
     '🈂','Ⓜ','🛂','🛄','🛅','🛃','🉑','㊙','㊗','🆑','🆘','🆔','🚫','🔞','📵','🚯','🚱','🚳','🚷','🚸','⛔','✳','❇','❎','✅','✴','💟','🆚','📳','📴','🅰','🅱','🆎','🅾','💠','➿','♻','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','⛎','🔯','🏧','💹','💲','💱','©','®','™','〽','〰','🔝','🔚','🔙','🔛','🔜','❌','⭕','❗','❓','❕','❔','🔃','🕛','🕧','🕐','🕜','🕑','🕝','🕒','🕞','🕓','🕟','🕔','🕠','🕕','🕖','🕗','🕘','🕙','🕚','🕡','🕢','🕣','🕤','🕥','🕦','✖','➕','➖','➗','♠','♥','♣','♦','💮','💯','✔','☑','🔘','🔗','➰','🔱','🔲','🔳','◼','◻','◾','◽','▪','▫','🔺','⬜','⬛','⚫','⚪','🔴','🔵','🔻','🔶','🔷','🔸','🔹'
 ];
 
-async function aguirre(message) {
-    
+function aguirre(message) {
+
     const args = message.content.split(' ');
     var num = 5;
     var cond = true;
@@ -289,17 +289,17 @@ async function aguirre(message) {
 
     if (cond)
     {
-        var prediccion = ['o'];
-        message.channel.send("Ok vamos a ver que te depara el futuro.").then(msg => {msg.react(LapisEmoji.Lapis1.Emoji)
-            prediccion.pop()
+        var prediccion = [];
+        message.channel.send("Ok vamos a ver que te depara el futuro "+message.author.username).then(msg => {
+            msg.react(LapisEmoji.Lapis1.Emoji)
             for (let i = 0; i < num; i++)
             {        
                 prediccion.push((emojis[Math.floor(Math.random() * emojis.length)]));
             }
-        }).then(async () => {
+        }).then( () => {
             for (let i = 0; i < num; i++)
             {        
-                await message.channel.send(prediccion.pop())
+                message.channel.send(prediccion.pop())
             }
         });
 
