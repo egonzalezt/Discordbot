@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const config = require("./config.json");
+const LapisEmoji = require("./emoji.json");
 const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
 const path = require('path');
-const LapisEmoji = require("./emoji.json");
 
 bot.on("guildMemberAdd", member => {
     const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === 'general')
