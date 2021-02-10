@@ -21,6 +21,7 @@ bot.on('ready', () => {
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
+//var p = "./commands"
 var p = "/app/src/commands/"
 fs.readdir(p, function (err, files) {
     if (err) {
@@ -33,6 +34,7 @@ fs.readdir(p, function (err, files) {
         return fs.statSync(file).isDirectory();
     }).forEach(function (file) {
         var ruta = file.replace("\\","/")
+        //let directory =`./${ruta}/`
         let directory =`${ruta}/`
         console.log(directory);
         fs.readdir(directory, (err, files) => {
@@ -66,7 +68,11 @@ bot.on("message", async message => {
 
     if(!message.content.startsWith(prefix)) return;
     let commandfile = bot.commands.get(cmd.slice(prefix.length)) || bot.commands.get(bot.aliases.get(cmd.slice(prefix.length)))
-    if(commandfile) commandfile.run(bot,message,args,LapisEmoji)
+    if(commandfile) 
+    {
+        message.react(LapisEmoji.Lapis15.Emoji);
+        commandfile.run(bot,message,args,LapisEmoji)
+    }
 
 })
 
