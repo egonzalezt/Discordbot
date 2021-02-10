@@ -20,6 +20,6 @@
     "node-fetch": "^2.6.1",
     "request": "^2.88.2",
     "snekfetch": "^4.0.4",
-    "steamapi": "^2.1.2",
+    "steamapi": "^2.1.2"
   }
 }
