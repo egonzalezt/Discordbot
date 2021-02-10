@@ -33,7 +33,7 @@ fs.readdir(p, function (err, files) {
         return fs.statSync(file).isDirectory();
     }).forEach(function (file) {
         var ruta = file.replace("\\","/")
-        let directory =`.${ruta}/`
+        let directory =`${ruta}/`
         console.log(directory);
         fs.readdir(directory, (err, files) => {
 
