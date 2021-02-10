@@ -21,7 +21,7 @@ bot.on('ready', () => {
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
-var p = "commands/"
+var p = "/app/src/commands/"
 fs.readdir(p, function (err, files) {
     if (err) {
         throw err;
