@@ -1,6 +1,7 @@
 const path = require('path')
-let locate  = path.resolve('handler', 'error.js') 
-const error = require(locate)
+//let locate  = path.resolve('handler', 'error.js') 
+//const error = require(locate)
+const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
     message.channel.send(`hello ${message.author}`)
