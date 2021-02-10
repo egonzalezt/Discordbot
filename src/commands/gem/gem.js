@@ -1,20 +1,15 @@
-const Discord = require('discord.js');
 const cheerio = require("cheerio");
 const request = require("request");
-//const fetch = require("node-fetch");
-const LapisEmoji = require("./emoji.json");
-const commands = require("./commands.js")
-
-
-const gemcommand = {};
+const path = require('path')
+let locate  = path.resolve('handler', 'error.js') 
+const error1 = require(locate)
 
 const gemlist = ["Rose_Quartz","Pearl","Amethyst","Ruby","Sapphire","Peridot","Bismuth","Lapis_Lazuli","Biggs_Jasper","Snowflake_Obsidian","Larimar","Bismuth","White_Diamond","Yellow_Diamond",
 "Blue_Diamond","Pink_Diamond","Emerald","Hessonite","Demantoid","Pyrope","Aquiamarine","Topaz","Nephrite","Peridot_(Squaridot)","Jasper","Holly_Blue_Agate","Cherry_Quartz","Zircon","Spinel","Garnet"
 ,"Opal","Sugilite","Alexandrite","Rainbow_Quartz","Sardonyx","Obsidian","Stevonnie","Smoky_Quartz","Sunstone","Rainbow_Quartz_2.0","Malachite","Ruby_(Giant_Ruby)","Rhodonite","Mega_Pearl","The_Cluster"
 ,"Ocean_Jasper","Lace_Amethyst","Blue_Lace_Agate","Angel_Aura_Quartz","Bixbite","Heaven_Beetle","Earth_Beetle"]
 
-function gem(message)
-{
+module.exports.run = async (bot, message, args,LapisEmoji) => {
     //var parts = message.content.split(" ");
     var gem = gemlist[Math.floor(Math.random() * gemlist.length)];
     var search = "Steven Universe "+gem; // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
@@ -46,7 +41,7 @@ function gem(message)
             var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
             //console.log(urls);
             if (!urls.length) {
-                commands.error(message);
+                error1.error(message);
                 return;
             }
      
@@ -62,14 +57,12 @@ function gem(message)
             
         });
     });
-
 }
 
-function lapis(message)
-{
-    
+module.exports.config = {
+    name: "gem",
+    description: "Gets a random SU gem character",
+    usage: "?gem",
+    accessableby: "Members",
+    aliases: []
 }
-
-gemcommand.gem = gem;
-
-module.exports = gemcommand;
