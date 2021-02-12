@@ -1,5 +1,11 @@
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
+/*
+const path = require('path')
+let locate  = path.resolve('handler', 'error.js');
+const error = require(locate);
+*/
+const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
     let url = "https://some-random-api.ml/meme";
@@ -10,7 +16,7 @@ module.exports.run = async (bot, message, args,LapisEmoji) => {
         .setDescription("Category " + body.category)
         .setImage(body.image)
         message.channel.send(embed);
-    }).catch(() => {error(message);});
+    }).catch(() => {error.error(message);});
 }
 
 module.exports.config = {
@@ -18,5 +24,6 @@ module.exports.config = {
     description: "gets a random meme",
     usage: "?meme",
     accessableby: "Members",
+    help:"only type ?meme",
     aliases: []
 }

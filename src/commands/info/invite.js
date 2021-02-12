@@ -13,5 +13,6 @@ module.exports.config = {
     description: "Invite lapis to your server",
     usage: "?invite",
     accessableby: "Members",
+    help:"only type ?invite",
     aliases: ['iv','it']
 }

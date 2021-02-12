@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 const cheerio = require("cheerio");
 const request = require("request");
+/*
 const path = require('path')
-//let locate  = path.resolve('handler', 'error.js');
-//const error = require(locate);
+let locate  = path.resolve('handler', 'error.js');
+const error = require(locate);
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -62,5 +64,6 @@ module.exports.config = {
     description: "search an specific image",
     usage: "?image",
     accessableby: "Members",
+    help:"?image <image to search>",
     aliases: ['img']
 }

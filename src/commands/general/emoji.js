@@ -14,5 +14,6 @@ module.exports.config = {
     description: "Send a random emoji",
     usage: "?emoji",
     accessableby: "Members",
+    help:"only type ?emoji",
     aliases: ['emoticono']
 }

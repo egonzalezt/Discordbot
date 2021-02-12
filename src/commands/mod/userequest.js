@@ -41,5 +41,6 @@ module.exports.config = {
     description: "Request a user to specific channel",
     usage: "?urequest",
     accessableby: "Members",
+    help:"?urequest <@username> <message>",
     aliases: ['invocar','urqst','urequest']
 }

@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
+/*
 const path = require('path')
-//let locate  = path.resolve('handler', 'error.js') 
-//const error = require(locate)
+let locate  = path.resolve('handler', 'error.js') 
+const error = require(locate)
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -36,5 +38,6 @@ module.exports.config = {
     description: "Get song information",
     usage: "?lyrics",
     accessableby: "Members",
+    help:"?lyrics <songname>",
     aliases: ['ly']
 }

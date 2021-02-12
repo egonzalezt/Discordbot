@@ -50,5 +50,6 @@ module.exports.config = {
     description: "Clear 5 or more messages",
     usage: "?cls",
     accessableby: "Admins",
+    help:"?cls #cleans 5 messages \n ?cls <amount of messages to delete>",
     aliases: []
 }

@@ -55,5 +55,6 @@ module.exports.config = {
     description: "Prediccion con emojis",
     usage: "?aguirre",
     accessableby: "Members",
+    help:"?aguirre \n ?aguirre <cantidad de emojis>",
     aliases: ['horaculo','predict']
 }

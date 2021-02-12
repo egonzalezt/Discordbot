@@ -60,5 +60,6 @@ module.exports.config = {
     description: "Gets steam user's profile",
     usage: "?steam",
     accessableby: "Members",
+    help:"?steam <steamid> \n requires steam custom url",
     aliases: []
 }

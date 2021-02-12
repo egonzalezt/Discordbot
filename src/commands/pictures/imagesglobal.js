@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const {get} = require("snekfetch");
+/*
 const path = require('path')
-//let locate  = path.resolve('handler', 'error.js');
-//const error = require(locate);
+let locate  = path.resolve('handler', 'error.js');
+const error = require(locate);
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -63,8 +65,9 @@ module.exports.run = async (bot, message, args,LapisEmoji) => {
 
 module.exports.config = {
     name: "Image api",
-    description: "gets a picture of your avatar modified",
+    description: "gets a picture of your avatar modified \n You can use the other aliases options for different images",
     usage: "?bw",
     accessableby: "Members",
+    help:"?bw \n ?bw <@user>",
     aliases: ['bw','rainbow','wasted','triggered','invert','glass']
 }

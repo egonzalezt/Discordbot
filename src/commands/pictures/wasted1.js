@@ -1,7 +1,9 @@
 const {get} = require("snekfetch");
+/*
 const path = require('path')
-//let locate  = path.resolve('handler', 'error.js');
-//const error = require(locate);
+let locate  = path.resolve('handler', 'error.js');
+const error = require(locate);
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -35,5 +37,6 @@ module.exports.config = {
     description: "send your avatar with gta v wasted style",
     usage: "?wasted1",
     accessableby: "Members",
+    help:"?wasted1 \n ?wasted1 <@usertag> #max 3 users",
     aliases: ['gta1']
 }

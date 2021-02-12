@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
-const path = require('path')
-//let locate  = path.resolve('handler', 'error.js') 
-//const error = require(locate)
+/*
+const path = require('path');
+let locate  = path.resolve('handler', 'error.js'); 
+const error = require(locate);
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -38,5 +40,6 @@ module.exports.config = {
     description: "Discord user profile picture",
     usage: "?avatar",
     accessableby: "Members",
+    help:"?avatar \n ?avatar <@user>",
     aliases: ['foto','av']
 }

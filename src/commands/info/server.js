@@ -19,5 +19,6 @@ module.exports.config = {
     description: "Get bot server specs",
     usage: "?server",
     accessableby: "Members",
+    help:"only type ?server",
     aliases: ['sv']
 }

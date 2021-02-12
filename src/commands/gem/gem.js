@@ -1,9 +1,11 @@
 const cheerio = require("cheerio");
 const request = require("request");
-const path = require('path')
-//let locate  = path.resolve('handler', 'error.js') 
-//const error1 = require(locate)
-const error1 = require('/app/src/handler/error.js')
+/*
+const path = require('path');
+let locate  = path.resolve('handler', 'error.js');
+const error1 = require(locate);
+*/
+const error1 = require('/app/src/handler/error.js');
 
 const gemlist = ["Rose_Quartz","Pearl","Amethyst","Ruby","Sapphire","Peridot","Bismuth","Lapis_Lazuli","Biggs_Jasper","Snowflake_Obsidian","Larimar","Bismuth","White_Diamond","Yellow_Diamond",
 "Blue_Diamond","Pink_Diamond","Emerald","Hessonite","Demantoid","Pyrope","Aquiamarine","Topaz","Nephrite","Peridot_(Squaridot)","Jasper","Holly_Blue_Agate","Cherry_Quartz","Zircon","Spinel","Garnet"
@@ -65,5 +67,6 @@ module.exports.config = {
     description: "Gets a random SU gem character",
     usage: "?gem",
     accessableby: "Members",
+    help:"only type ?gem",
     aliases: []
 }

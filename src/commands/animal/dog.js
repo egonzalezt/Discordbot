@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const {get} = require("snekfetch");
-const path = require('path')
-//let locate  = path.resolve('handler', 'error.js') 
-//const error = require(locate)
+/*
+const path = require('path');
+let locate  = path.resolve('handler', 'error.js'); 
+const error = require(locate);
+*/
 const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
@@ -22,5 +24,6 @@ module.exports.config = {
     description: "Random cat picture",
     usage: "?dog",
     accessableby: "Members",
+    help:"only type ?dog",
     aliases: []
 }

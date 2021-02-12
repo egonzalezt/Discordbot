@@ -9,6 +9,7 @@ module.exports.config = {
     description: "Get a random value",
     usage: "?random",
     accessableby: "Members",
+    help:"only type ?random",
     aliases: ['rd']
 }
 
