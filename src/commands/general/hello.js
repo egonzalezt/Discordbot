@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args,LapisEmoji) => {
 
 module.exports.config = {
     name: "hello",
-    description: "Lapis say hello to you",
+    description: "Lapis say hello to you :)",
     usage: "?hello",
     accessableby: "Members",
     help:"only type ?hello and react lapis emoji",
