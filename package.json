@@ -15,6 +15,7 @@
     "async": "^3.2.0",
     "cheerio": "^1.0.0-rc.5",
     "dateformat": "^4.4.1",
+    "discord-slash-commands-client": "^1.1.1",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.2.7",
     "node-fetch": "^2.6.1",
