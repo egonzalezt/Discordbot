@@ -5,24 +5,35 @@ const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
 const path = require('path');
 
+const mongo = require('./mongo')
+const scheduledSchema = require('./models/scheduled-schema')
+
+
 bot.on("guildMemberAdd", member => {
     const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === 'general')
     welcomeChannel.send (`Welcome! ${member}`)
 })
 
-bot.on('ready', () => {
+bot.on('ready', async() => {
     console.log('Bot Now connected!');
     console.log('Logged In as', bot.user.tag)
     bot.user.setStatus('online'); // online, idle, invisible, dnd
     bot.user.setActivity("In develop ?help"); 
     console.log('Bot status: ', bot.user.presence.status);
+    /*await mongo().then((mongoose) => {
+        try {
+          console.log('Connected to mongo!')
+        } finally {
+          mongoose.connection.close()
+        }
+    });*/
 });
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
-//var p = "./commands"
-var p = "/app/src/commands/"
+var p = "./commands"
+//var p = "/app/src/commands/"
 fs.readdir(p, function (err, files) {
     if (err) {
         throw err;
@@ -34,8 +45,8 @@ fs.readdir(p, function (err, files) {
         return fs.statSync(file).isDirectory();
     }).forEach(function (file) {
         var ruta = file.replace("\\","/")
-        //let directory =`./${ruta}/`
-        let directory =`${ruta}/`
+        let directory =`./${ruta}/`
+        //let directory =`${ruta}/`
         console.log(directory);
         fs.readdir(directory, (err, files) => {
 
@@ -73,6 +84,49 @@ bot.on("message", async message => {
         message.react(LapisEmoji.Lapis15.Emoji);
         commandfile.run(bot,message,args,LapisEmoji)
     }
+
+    const checkForPosts = async () => {
+        const query = {
+          date: {
+            $lte: Date.now(),
+          },
+        }
+  
+        var results;
+
+        await mongo().then( async (mongoose) => {
+            try {
+
+                results = await scheduledSchema.find(query)
+
+                for (const post of results) 
+                {
+                    const { guildId, channelId, content } = post
+                    console.log(post)
+                    const guild = await bot.guilds.fetch(guildId)
+                    if (!guild) 
+                    {
+                        continue
+                    }
+                    const channel = guild.channels.cache.get(channelId)
+                    if (!channel) 
+                    {
+                        continue
+                    }
+                    bot.channels.cache.get(channelId).send(content);
+                }
+          
+                await scheduledSchema.deleteMany(query)
+
+            } finally {
+                mongoose.connection.close()
+            }
+        });
+  
+        setTimeout(checkForPosts, 1000 * 10)
+      }
+  
+    checkForPosts()
 
 })
 

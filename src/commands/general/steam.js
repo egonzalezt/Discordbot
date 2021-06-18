@@ -1,11 +1,16 @@
 const Discord = require('discord.js');
 const SteamAPI = require('steamapi');
-const steam = new SteamAPI('0890A4315901863AC41E676FD5A32ABD');
+const steam = new SteamAPI('FCC56E958BACFA865B39EEBBC425C0BE');
 const dateFormat = require('dateformat');
 const fetch = require("node-fetch");
-const Skey = "0890A4315901863AC41E676FD5A32ABD";
+const Skey = "FCC56E958BACFA865B39EEBBC425C0BE";
 module.exports.run = async (bot, message, args,LapisEmoji) => {
 
+const path = require('path')
+let locate  = path.resolve('handler', 'error.js') 
+const error = require(locate)
+
+//const error = require('/app/src/handler/error.js')
 
 const PLAYER={};
 
@@ -51,6 +56,8 @@ var status = {
                     .addField("Steam link",`[link to profile](${summary.url}).`)
                     message.channel.send(embed)
                 });            }
+        }).catch(() => {
+            error.error(message);
         });
     }
 }

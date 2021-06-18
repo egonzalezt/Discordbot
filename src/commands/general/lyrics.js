@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
-/*
+
 const path = require('path')
 let locate  = path.resolve('handler', 'error.js') 
 const error = require(locate)
-*/
-const error = require('/app/src/handler/error.js')
+
+//const error = require('/app/src/handler/error.js')
 
 module.exports.run = async (bot, message, args,LapisEmoji) => {
     const args1 = message.content.split(' ');

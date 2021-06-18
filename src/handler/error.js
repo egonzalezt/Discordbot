@@ -7,6 +7,8 @@ function error(message)
     const embed = new Discord.MessageEmbed()
     .setColor(`#f3f3f3`)
     .setImage(fail)
+    .setTitle("Opps")
+
     //.attachFiles([fail]);
     return message.channel.send({embed});
 }

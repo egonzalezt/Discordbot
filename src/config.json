@@ -1,5 +1,7 @@
 {
     "BOT_TOKEN": "Nzk3OTQ3MjE4NDcxNDE5OTUy.X_t4Qg.KJXKYS_awD2KdBy3FnGD9SYuk8g",
-    "prefix": "?"
+    "prefix": "?",
+    "MONGO_URLI": "mongodb+srv://daves2126:lapisbot2126@scheduled-posts.vsjyb.mongodb.net/LAPISDB?retryWrites=true&w=majority"
+
 }
 
