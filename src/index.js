@@ -4,7 +4,7 @@ const LapisEmoji = require("./emoji.json");
 const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
 const path = require('path');
-
+const error = require('./handler/error')
 const mongo = require('./mongo')
 const scheduledSchema = require('./models/scheduled-schema')
 
@@ -82,7 +82,11 @@ bot.on("message", async message => {
     if(commandfile) 
     {
         message.react(LapisEmoji.Lapis15.Emoji);
-        commandfile.run(bot,message,args,LapisEmoji)
+        commandfile.run(bot,message,args,LapisEmoji,error)
+    }
+    else
+    {
+        message.reply(`Sorry ${message.author.username} Unknow command please use ?commands to get all the information`)
     }
 
     const checkForPosts = async () => {

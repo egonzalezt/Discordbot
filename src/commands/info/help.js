@@ -1,12 +1,6 @@
 const Discord = require('discord.js');
 
-const path = require('path');
-let locate  = path.resolve('handler', 'error.js');
-const error = require(locate);
-
-//const error = require('/app/src/handler/error.js')
-
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
 
     let messageArray = message.content.split(" ");
     let cmd = messageArray[1];

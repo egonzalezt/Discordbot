@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const os = require('os');
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     // uses Nodejs module os to get system specs
     const embe = new Discord.MessageEmbed()
         .setTitle(`Server specs`)

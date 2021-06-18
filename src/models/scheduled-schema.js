@@ -17,7 +17,6 @@ const scheduledSchema = new mongoose.Schema({
 
 const name = 'scheduled-posts'
 
-module.exports =
-  mongoose.model[name] || mongoose.model(name, scheduledSchema, name)
+module.exports = mongoose.model[name] || mongoose.model(name, scheduledSchema, name)
 
 //module.exports = mongoose.model(name,scheduledSchema)

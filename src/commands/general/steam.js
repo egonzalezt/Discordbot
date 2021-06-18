@@ -4,13 +4,7 @@ const steam = new SteamAPI('FCC56E958BACFA865B39EEBBC425C0BE');
 const dateFormat = require('dateformat');
 const fetch = require("node-fetch");
 const Skey = "FCC56E958BACFA865B39EEBBC425C0BE";
-module.exports.run = async (bot, message, args,LapisEmoji) => {
-
-const path = require('path')
-let locate  = path.resolve('handler', 'error.js') 
-const error = require(locate)
-
-//const error = require('/app/src/handler/error.js')
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
 
 const PLAYER={};
 

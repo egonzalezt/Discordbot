@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     let embed = new Discord.MessageEmbed()
         .setColor(`#42e0f5`)
         .setImage("https://64.media.tumblr.com/46b6a7a1200ba2ba11660e9f33a9987d/tumblr_inline_pabygfhJSe1vmcjra_500.gif")

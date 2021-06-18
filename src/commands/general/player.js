@@ -1,12 +1,6 @@
 const Discord = require('discord.js');
 
-const path = require('path')
-let locate  = path.resolve('handler', 'error.js') 
-const error = require(locate)
-
-//const error = require('/app/src/handler/error.js')
-
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     // uses Nodejs module os to get system specs
     if(!message.mentions.users.first())//detect if the message don't content @ to send message owner user info
     {

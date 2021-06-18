@@ -1,18 +1,19 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     message.channel.send("Hey look at your dm!!").then(msg => {
         let commando = new Discord.MessageEmbed()
             .setTitle(`Lapis commands`)
             .setColor(`#42e0f5`)
             .setAuthor("Lapis bot",msg.author.avatarURL())
-            .setDescription(`Hey ${message.author} those are my commands`)
+            .setDescription(`Hey ${message.author} those are my commands \n to get more information use ?help <command>`)
             .addField("?invite","To invite lapis on your server")
             .addField("?cat", "Return cat random pic")
             .addField("?dog", "Return dog random pic")
             .addField("?hello", "Lapis say hello to you")
             .addField("?commands", "This are my commands")
             .addField("?server", "To see the server specs ")
+            .addField("?save", "To save a message to send it later")
             .addField("?random", "To generate a random number")
             .addField("?image something", "Lapis send a picture ")
             .addField("?player", "To see your or another user profile")

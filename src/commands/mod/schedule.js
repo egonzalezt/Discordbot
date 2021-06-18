@@ -5,7 +5,7 @@ const mongo = require('../../mongo')
 const scheduledSchema = require('../../models/scheduled-schema')
 //const { Mongoose } = require('mongoose');
 
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
 
     const values = args.split(" ")
     var channel1 = values[0]

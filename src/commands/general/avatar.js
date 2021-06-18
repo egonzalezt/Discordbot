@@ -1,12 +1,6 @@
 const Discord = require('discord.js');
 
-const path = require('path');
-let locate  = path.resolve('handler', 'error.js'); 
-const error = require(locate);
-
-//const error = require('/app/src/handler/error.js')
-
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     if(!message.mentions.users.first())//send the user profile if they didn't pin other user
     {
         const embed = new Discord.MessageEmbed()

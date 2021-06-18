@@ -1,13 +1,7 @@
 const Discord = require('discord.js');
 const {get} = require("snekfetch");
 
-const path = require('path')
-let locate  = path.resolve('handler', 'error.js');
-const error = require(locate);
-
-//const error = require('/app/src/handler/error.js')
-
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     const args1 = message.content.split(' ');
     let comando = args1[0];
     const type = comando.replace('?','')

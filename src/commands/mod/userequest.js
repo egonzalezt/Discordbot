@@ -1,4 +1,4 @@
-module.exports.run = async (bot, message, args,LapisEmoji) => {
+module.exports.run = async (bot, message, args,LapisEmoji,error) => {
     try
     {
         const args1 = message.content.split(' ');
