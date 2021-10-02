@@ -1,9 +1,9 @@
 {
-  "name": "LapisV13",
+  "name": "your bot name",
   "language": "javascript",
   "manager": "npm",
-  "steam": "BC446385A9B8657B8982130174F83B5B",
-  "token": "Nzk3OTQ3MjE4NDcxNDE5OTUy.X_t4Qg.G6F8bQaBBoopBsILjYi6Q5rh0pc",
+  "steam": "steamapikey",
+  "token": "discordbottoken",
   "prefix": "?",
-  "sra":"3lZ17FHp6axOXmWU67pFtBY8v"
+  "sra":"some random api key"
 }
